@@ -27,4 +27,12 @@ describe('remediateOcr', () => {
     expect(report.recognizedWordCount).toBe(4);
     expect(report.unknownTokenRate).toBeCloseTo(1 / 5);
   });
+  it('splits run-together words into two known words', () => {
+    const { text } = remediateOcr('thequestion was hard', dict);
+    expect(text).toBe('the question was hard');
+  });
+  it('repairs words where only one of several f characters is a long-s misread', () => {
+    const { text } = remediateOcr('to fatisfy him', dict);
+    expect(text).toBe('to satisfy him');
+  });
 });
