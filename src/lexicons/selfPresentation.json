@@ -1,0 +1,22 @@
+{ "category": "selfPresentation", "entries": [
+  { "term": "honest self", "forms": ["honest", "honestly"], "weight": 2, "polarity": 1 },
+  { "term": "innocent self", "forms": ["innocent", "innocence", "blameless", "guiltless"], "weight": 2, "polarity": 1 },
+  { "term": "virtuous self", "forms": ["virtuous", "vertuous", "good", "worthy"], "weight": 1, "polarity": 1 },
+  { "term": "pious self", "forms": ["pious", "godly", "devout", "religious"], "weight": 2, "polarity": 1 },
+  { "term": "penitent self", "forms": ["penitent", "repentant", "contrite"], "weight": 2, "polarity": 1 },
+  { "term": "modest self", "forms": ["modest", "chaste", "sober", "prudent"], "weight": 1, "polarity": 1 },
+  { "term": "dutiful self", "forms": ["dutiful", "obedient", "faithful", "loyal"], "weight": 1, "polarity": 1 },
+  { "term": "grateful self", "forms": ["grateful", "thankful"], "weight": 1, "polarity": 1 },
+  { "term": "sincere self", "forms": ["sincere", "sincerity", "true", "upright"], "weight": 1, "polarity": 1 },
+  { "term": "industrious self", "forms": ["industrious", "diligent"], "weight": 1, "polarity": 1 },
+  { "term": "wicked self", "forms": ["wicked", "wickedness", "evil"], "weight": 2, "polarity": -1 },
+  { "term": "sinful self", "forms": ["sinful", "sinner", "sins", "sin"], "weight": 2, "polarity": -1 },
+  { "term": "wretch self", "forms": ["wretch", "wretched", "miserable"], "weight": 1, "polarity": -1 },
+  { "term": "guilty self", "forms": ["guilty", "guilt", "criminal"], "weight": 2, "polarity": -1 },
+  { "term": "vile self", "forms": ["vile", "base", "infamous", "abandoned"], "weight": 2, "polarity": -1 },
+  { "term": "foolish self", "forms": ["foolish", "folly", "fool", "vain"], "weight": 1, "polarity": -1 },
+  { "term": "hardened self", "forms": ["hardened", "obstinate", "impenitent"], "weight": 2, "polarity": -1 },
+  { "term": "false self", "forms": ["false", "deceitful", "hypocrite", "hypocrisy"], "weight": 2, "polarity": -1 },
+  { "term": "shameful self", "forms": ["shame", "ashamed", "shameful", "disgrace"], "weight": 1, "polarity": -1 },
+  { "term": "cruel self", "forms": ["cruel", "cruelty", "hardhearted", "unkind"], "weight": 2, "polarity": -1 }
+] }

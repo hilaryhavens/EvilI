@@ -1,0 +1,13 @@
+{ "category": "retraction", "entries": [
+  { "term": "but in truth", "forms": ["but in truth", "but the truth is", "but the truth was", "in truth however"], "weight": 3, "kind": "phrase" },
+  { "term": "to confess the truth", "forms": ["to confess the truth", "to own the truth", "to tell the truth", "truth to tell"], "weight": 2, "kind": "phrase" },
+  { "term": "i falsely said", "forms": ["as i falsely said", "i falsely", "which was false", "this was not true"], "weight": 3, "kind": "phrase" },
+  { "term": "i must own", "forms": ["i must own", "i must confess", "i must acknowledge", "i cannot deny"], "weight": 2, "kind": "phrase" },
+  { "term": "as i said before but", "forms": ["contrary to what i said", "though i said", "notwithstanding what i said"], "weight": 3, "kind": "phrase" },
+  { "term": "i concealed", "forms": ["i concealed", "i hid from", "i did not tell", "i kept from"], "weight": 2, "kind": "phrase" },
+  { "term": "i pretended", "forms": ["i pretended", "i feigned", "i made as if", "i made him believe", "i made her believe", "i made them believe"], "weight": 3, "kind": "phrase" },
+  { "term": "in reality", "forms": ["in reality", "in fact however", "but really"], "weight": 1, "kind": "phrase" },
+  { "term": "i now confess", "forms": ["i now confess", "i here confess", "i confess now"], "weight": 2, "kind": "phrase" },
+  { "term": "passed for", "forms": ["i passed for", "i went by the name", "under the name of"], "weight": 2, "kind": "phrase" },
+  { "term": "i dissembled", "forms": ["i dissembled", "dissembling", "i concealed my true", "masked my feelings"], "weight": 2, "kind": "phrase" }
+] }

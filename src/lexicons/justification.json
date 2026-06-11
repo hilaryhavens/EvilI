@@ -1,0 +1,16 @@
+{ "category": "justification", "entries": [
+  { "term": "driven by necessity", "forms": ["driven by necessity", "necessity drove", "necessity compelled", "for mere necessity", "by necessity"], "weight": 3, "kind": "phrase" },
+  { "term": "i was forced", "forms": ["i was forced", "i was compelled", "i was obliged", "i was driven"], "weight": 2, "kind": "phrase" },
+  { "term": "i could not help", "forms": ["i could not help", "i could not avoid", "i had no choice", "i could do no other"], "weight": 2, "kind": "phrase" },
+  { "term": "the reader must", "forms": ["the reader must", "the reader will", "the reader may", "let the reader"], "weight": 3, "kind": "phrase" },
+  { "term": "let none judge", "forms": ["let none judge", "let no one judge", "judge me not", "who can blame"], "weight": 3, "kind": "phrase" },
+  { "term": "who could have", "forms": ["who could have done otherwise", "what could i do", "what else could i", "who would not have"], "weight": 3, "kind": "phrase" },
+  { "term": "i was tempted", "forms": ["i was tempted", "the devil tempted", "the temptation was"], "weight": 2, "kind": "phrase" },
+  { "term": "not my fault", "forms": ["not my fault", "no fault of mine", "through no fault"], "weight": 3, "kind": "phrase" },
+  { "term": "i meant no", "forms": ["i meant no harm", "i intended no", "i meant well"], "weight": 2, "kind": "phrase" },
+  { "term": "any one in my", "forms": ["any one in my circumstances", "anyone in my place", "in my condition would"], "weight": 3, "kind": "phrase" },
+  { "term": "i appeal", "forms": ["i appeal to", "i leave it to the world", "let the world judge"], "weight": 3, "kind": "phrase" },
+  { "term": "hard fate", "forms": ["my hard fate", "my unhappy fate", "my cruel fortune", "my misfortunes"], "weight": 2, "kind": "phrase" },
+  { "term": "excuse me", "forms": ["must excuse me", "will excuse me", "may excuse"], "weight": 2, "kind": "phrase" },
+  { "term": "i protest", "forms": ["i protest", "i solemnly declare", "i do assure the reader"], "weight": 2, "kind": "phrase" }
+] }

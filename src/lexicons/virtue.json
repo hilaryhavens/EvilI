@@ -1,0 +1,23 @@
+{ "category": "virtue", "entries": [
+  { "term": "repent", "forms": ["repent", "repented", "repenting", "repentance", "penitence", "penitent"], "weight": 3 },
+  { "term": "pray", "forms": ["prayed", "praying", "prayers", "devotion", "devotions"], "weight": 2 },
+  { "term": "charity", "forms": ["charity", "charitable", "alms", "almsgiving"], "weight": 3 },
+  { "term": "give", "forms": ["gave", "bestowed", "relieved", "succoured", "succored"], "weight": 1 },
+  { "term": "forgive", "forms": ["forgive", "forgave", "forgiven", "forgiveness", "pardoned"], "weight": 2 },
+  { "term": "honest", "forms": ["honest", "honesty", "honestly"], "weight": 2 },
+  { "term": "labour", "forms": ["laboured", "labored", "industry", "industrious", "toiled", "diligence", "diligent"], "weight": 2 },
+  { "term": "duty", "forms": ["duty", "dutiful", "obedience", "obedient", "obeyed"], "weight": 1 },
+  { "term": "thank", "forms": ["thanked", "thankful", "gratitude", "grateful"], "weight": 1 },
+  { "term": "confess", "forms": ["confessed", "confession", "acknowledged"], "weight": 2 },
+  { "term": "amend", "forms": ["amend", "amended", "amendment", "reformed", "reformation"], "weight": 2 },
+  { "term": "chaste", "forms": ["chastity", "chaste", "modesty", "modest"], "weight": 2 },
+  { "term": "prudence", "forms": ["prudence", "prudent", "prudently"], "weight": 1 },
+  { "term": "piety", "forms": ["piety", "pious", "piously", "godliness", "godly"], "weight": 2 },
+  { "term": "mercy", "forms": ["mercy", "merciful", "compassion", "compassionate", "pity", "pitied"], "weight": 2 },
+  { "term": "restore", "forms": ["restored", "restitution", "repaid", "repay"], "weight": 2 },
+  { "term": "protect", "forms": ["protected", "defended", "rescued", "preserved"], "weight": 1 },
+  { "term": "temperance", "forms": ["temperance", "temperate", "sober", "sobriety"], "weight": 1 },
+  { "term": "humility", "forms": ["humility", "humble", "humbled", "meekness", "meek"], "weight": 1 },
+  { "term": "faithful", "forms": ["faithful", "fidelity", "constancy", "constant"], "weight": 1 },
+  { "term": "virtue", "forms": ["virtue", "virtuous", "virtuously"], "weight": 2 }
+] }
