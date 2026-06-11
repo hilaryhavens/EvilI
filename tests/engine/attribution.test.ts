@@ -60,3 +60,19 @@ describe('dialogue exclusion', () => {
       .not.toContain('viceDeed:steal');
   });
 });
+
+describe('offset exactness', () => {
+  it('locates hits in a later sentence exactly', () => {
+    const text = 'Years passed. I stole the watch from the gentleman.';
+    const h = extractEvidence(text, lex).find(x => x.signal === 'viceDeed');
+    expect(h && text.slice(h.charStart, h.charEnd)).toBe('stole');
+  });
+  it('resolves hits in repeated sentences to the right occurrence', () => {
+    const s = 'I stole the watch from the gentleman.';
+    const text = s + ' ' + s;
+    const hits = extractEvidence(text, lex).filter(x => x.signal === 'viceDeed');
+    expect(hits.length).toBe(2);
+    expect(hits[1].charStart).toBeGreaterThan(s.length - 1);
+    for (const h of hits) expect(text.slice(h.charStart, h.charEnd)).toBe('stole');
+  });
+});

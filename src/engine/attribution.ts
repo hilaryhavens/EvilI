@@ -21,6 +21,11 @@ export function extractEvidence(
   // for contradiction detection: lowercased surface form -> affirm/negate info
   const verbPolarity = new Map<string, { affirmed?: string; negated?: string }>();
 
+  // Monotonic cursor: advances sentence-by-sentence so indexOf never scans back
+  // to the beginning of narration. This fixes (a) O(n²) scans on novel-length
+  // text and (b) duplicate-sentence hits resolving to the first occurrence.
+  let searchFrom = 0;
+
   doc.sentences().each((sentence: ItemSentence) => {
     const sentText = sentence.out() as string;
 
@@ -34,16 +39,24 @@ export function extractEvidence(
     }
     const tokens: TokenInfo[] = [];
 
-    // Compute the sentence's start offset in the narration string
-    // by finding the sentence text in narration (approximate; fine for our use)
-    const sentOffset = narration.indexOf(sentText);
+    // Compute the sentence's start offset in the narration string using the
+    // monotonic searchFrom cursor so repeated sentences resolve to the correct
+    // (later) occurrence rather than always the first.
+    const sentOffset = narration.indexOf(sentText, searchFrom);
+    if (sentOffset !== -1) searchFrom = sentOffset + sentText.length;
 
-    // Walk tokens, accumulating char offsets within the sentence
+    // Walk tokens, accumulating char offsets within the sentence.
+    // We do NOT add the first token's precedingSpaces: sentence.out() is
+    // trimmed, so sentOffset already points at the first glyph. Adding the
+    // leading whitespace would shift every hit in the sentence by +1.
     let cursor = 0;
+    let firstToken = true;
     sentence.tokens().each((t: ItemToken) => {
       const surface = t.out() as string;
-      const preceding = t.out(its.precedingSpaces) as string;
-      cursor += preceding.length;
+      if (!firstToken) {
+        const preceding = t.out(its.precedingSpaces) as string;
+        cursor += preceding.length;
+      }
       const charStart = (sentOffset >= 0 ? sentOffset : 0) + cursor;
       tokens.push({
         text: surface.toLowerCase(),
@@ -53,12 +66,15 @@ export function extractEvidence(
         charStart,
       });
       cursor += surface.length;
+      firstToken = false;
     });
 
     const fpSentence = tokens.some((t) => FP_ANY.has(t.text));
 
     for (let i = 0; i < tokens.length; i++) {
       const tok = tokens[i];
+      // Hoist first-person subject check; used in multiple branches below
+      const fpAgent = hasFirstPersonSubject(tokens, i);
 
       // deeds: vice / virtue — first-person subject required, negation blocks
       for (const [lexName, signal] of [
@@ -66,7 +82,7 @@ export function extractEvidence(
         ['virtue', 'virtueDeed'],
       ] as const) {
         const entry = lexicons[lexName].formIndex.get(tok.text);
-        if (entry && !tok.negated && hasFirstPersonSubject(tokens, i)) {
+        if (entry && !tok.negated && fpAgent) {
           hits.push({
             signal: signal as Signal,
             term: entry.term,
@@ -95,7 +111,7 @@ export function extractEvidence(
       }
 
       // contradiction bookkeeping: first-person verbs (track both polarities)
-      if (tok.pos === 'VERB' && hasFirstPersonSubject(tokens, i)) {
+      if (tok.pos === 'VERB' && fpAgent) {
         const rec = verbPolarity.get(tok.text) ?? {};
         if (tok.negated) {
           rec.negated = sentText;
@@ -147,6 +163,8 @@ export function extractEvidence(
   // contradictions: same first-person verb both affirmed and negated
   for (const [verb, rec] of verbPolarity) {
     if (rec.affirmed && rec.negated) {
+      // charStart points at the first occurrence of the bare verb form in the
+      // original text — an accepted approximation for highlight purposes.
       const idx = processedText.toLowerCase().indexOf(verb);
       const start = Math.max(idx, 0);
       hits.push({
