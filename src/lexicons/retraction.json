@@ -8,6 +8,5 @@
   { "term": "i pretended", "forms": ["i pretended", "i feigned", "i made as if", "i made him believe", "i made her believe", "i made them believe"], "weight": 3, "kind": "phrase" },
   { "term": "in reality", "forms": ["in reality", "in fact however", "but really"], "weight": 1, "kind": "phrase" },
   { "term": "i now confess", "forms": ["i now confess", "i here confess", "i confess now"], "weight": 2, "kind": "phrase" },
-  { "term": "passed for", "forms": ["i passed for", "i went by the name", "under the name of"], "weight": 2, "kind": "phrase" },
-  { "term": "i dissembled", "forms": ["i dissembled", "dissembling", "i concealed my true", "masked my feelings"], "weight": 2, "kind": "phrase" }
+  { "term": "passed for", "forms": ["i passed for", "i went by the name", "under the name of"], "weight": 2, "kind": "phrase" }
 ] }

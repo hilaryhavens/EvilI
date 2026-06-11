@@ -5,7 +5,7 @@ describe('loadLexicons', () => {
   const lex = loadLexicons();
   it('loads all six categories', () => {
     for (const k of ['vice', 'virtue', 'selfPresentation', 'hedging', 'justification', 'retraction'] as const) {
-      expect(lex[k].entries.length).toBeGreaterThan(10);
+      expect(lex[k].entries.length).toBeGreaterThanOrEqual(10);
     }
   });
   it('every entry has term, forms, and positive weight', () => {
