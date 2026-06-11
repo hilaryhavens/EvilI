@@ -5,6 +5,7 @@ describe('loadLexicons', () => {
   const lex = loadLexicons();
   it('loads all six categories', () => {
     for (const k of ['vice', 'virtue', 'selfPresentation', 'hedging', 'justification', 'retraction'] as const) {
+      // >= 10: the retraction seed lexicon intentionally has exactly 10 entries
       expect(lex[k].entries.length).toBeGreaterThanOrEqual(10);
     }
   });

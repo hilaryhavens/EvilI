@@ -25,26 +25,37 @@ export interface Lexicons {
   hedging: Lexicon; justification: Lexicon; retraction: Lexicon;
 }
 
-function build(raw: { category: string; entries: LexiconEntry[] }): Lexicon {
+// Shape as TypeScript infers it from the JSON imports (polarity/kind widen
+// to number/string); narrowed to LexiconEntry once, inside build().
+interface RawEntry {
+  term: string;
+  forms: string[];
+  weight: number;
+  polarity?: number;
+  kind?: string;
+}
+
+function build(raw: { category: string; entries: RawEntry[] }): Lexicon {
+  const entries = raw.entries as LexiconEntry[];
   const formIndex = new Map<string, LexiconEntry>();
   const phrases: Lexicon['phrases'] = [];
-  for (const e of raw.entries) {
+  for (const e of entries) {
     for (const f of e.forms) {
       if (e.kind === 'phrase') phrases.push({ form: f, entry: e });
       else formIndex.set(f, e);
     }
   }
-  return { category: raw.category, entries: raw.entries, formIndex, phrases };
+  return { category: raw.category, entries, formIndex, phrases };
 }
 
 let cached: Lexicons | null = null;
 export function loadLexicons(): Lexicons {
   if (!cached) {
     cached = {
-      vice: build(vice as never), virtue: build(virtue as never),
-      selfPresentation: build(selfPresentation as never),
-      hedging: build(hedging as never), justification: build(justification as never),
-      retraction: build(retraction as never),
+      vice: build(vice), virtue: build(virtue),
+      selfPresentation: build(selfPresentation),
+      hedging: build(hedging), justification: build(justification),
+      retraction: build(retraction),
     };
   }
   return cached;

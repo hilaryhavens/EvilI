@@ -13,6 +13,7 @@
   { "term": "seemed", "forms": ["seemed", "seemingly"], "weight": 1 },
   { "term": "i forget", "forms": ["i forget", "i have forgot", "i have forgotten"], "weight": 2, "kind": "phrase" },
   { "term": "some say", "forms": ["some say", "some said", "it was said"], "weight": 1, "kind": "phrase" },
-  { "term": "doubtless", "forms": ["doubtless", "no doubt"], "weight": 1 },
+  { "term": "doubtless", "forms": ["doubtless"], "weight": 1 },
+  { "term": "no doubt", "forms": ["no doubt"], "weight": 1, "kind": "phrase" },
   { "term": "uncertain", "forms": ["uncertain", "uncertainty"], "weight": 1 }
 ] }
