@@ -2,12 +2,16 @@ import type { PerspectiveResult } from './types';
 import { clamp } from './types';
 import { maskDialogue } from './segment';
 
+// These g-flagged regexes must only be used with String.prototype.match(),
+// which resets lastIndex; .exec()/.test() on them would be stateful.
 const FIRST = /\b(?:i|me|my|mine|myself|we|us|our|ours|ourselves)\b/gi;
 const THIRD = /\b(?:he|him|his|she|her|hers|they|them|their|theirs)\b/gi;
 const SECOND = /\b(?:you|your|yours|thou|thee|thy|thine)\b/gi;
 const SELF_REF = /\bI (?:shall now relate|have (?:said|related|told)|must (?:tell|confess|own)|proceed to)\b/gi;
 
 export function detectPerspective(text: string): PerspectiveResult {
+  // maskDialogue strips only double-quoted speech; single-quoted or
+  // dash-delimited dialogue must be normalized to double quotes upstream.
   const narration = maskDialogue(text);
   const words = (narration.match(/\b[\w']+\b/g) ?? []).length || 1;
   const per1k = (n: number) => (n / words) * 1000;

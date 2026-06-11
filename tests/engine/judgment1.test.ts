@@ -22,6 +22,16 @@ describe('detectPerspective', () => {
     const tpWithDialogue = TP + ' "I am sure I shall never consent," said she. "I will not."';
     expect(detectPerspective(tpWithDialogue).verdict).toBe('third-person');
   });
+  it('reports pronoun densities per 1000 words', () => {
+    const r = detectPerspective(FP);
+    expect(r.firstPersonPer1k).toBeGreaterThan(0);
+    expect(r.firstPersonPer1k).toBeGreaterThan(r.thirdPersonPer1k);
+  });
+  it('handles empty input without crashing', () => {
+    const r = detectPerspective('');
+    expect(r.verdict).toBe('third-person');
+    expect(r.firstPersonPer1k).toBe(0);
+  });
   it('flags heavy second-person address as mixed-epistolary', () => {
     const epistolary = `Dear Madam, you will wonder that I write to you so soon.
     Thou knowest, dear friend, what thou hast asked of me, and you shall hear all.
