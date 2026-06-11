@@ -1,0 +1,126 @@
+EvilI — Session Write-Up
+Date: 2026-06-11
+Status: PAUSED during implementation. Tasks 1–7 of 22 complete and reviewed.
+Task 8 is NEXT (not started — paused before dispatch at user request).
+
+========================================================================
+1. PROJECT
+========================================================================
+EvilI: a static website (GitHub Pages) that analyzes long-eighteenth-
+century British texts entirely in the browser and reports:
+  - whether the text is first-person narration
+  - narrator reliability (0–100)
+  - narrator morality, two scores: deeds vs. self-presentation
+    (−100 immoral .. +100 virtuous), whose gap doubles as the
+    deed/word-discrepancy unreliability signal
+Inputs: paste, .txt upload (batch), TEI/XML, bundled sample corpus.
+Outputs: evidence-highlighted scores, charts (narrative arc, scatter),
+CSV/JSON export, PNG/SVG chart export, cross-text comparison.
+No server, no tracking, no data retention (structural: analysis never
+leaves the browser). Audience: researchers (rigor + documentation) AND
+students/public (friendly UI).
+
+Key design decisions (full detail in the two docs below):
+  - In-browser NLP heuristics (no LLM). Vite + TypeScript + wink-nlp,
+    analysis in a Web Worker; hand-rolled SVG charts (not Chart.js, so
+    SVG export works cleanly).
+  - Reliability signals: S1 hedging (weight 1 — deliberately low),
+    S2 self-justification/reader appeals (2), S3 deed/word gap (2),
+    S4 contradiction/retraction (2).
+  - Morality counted only for first-person agency ("I stole" counts,
+    "he stole" / "I never stole" don't).
+  - OCR remediation for ECCO texts (long-s-as-f etc.), dictionary-gated:
+    repair only if unknown token -> known word; quality report + UI
+    warning above 5% unknown tokens.
+  - Lexicons are editable JSON data files — seed sets shipped (~20–30
+    entries each); expanding to the spec's 50–150 per category is
+    editorial curation work for the project owner.
+
+Documents (committed):
+  docs/superpowers/specs/2026-06-11-evili-design.md   (approved spec)
+  docs/superpowers/plans/2026-06-11-evili-implementation.md
+    (22-task TDD plan — THE source of truth for remaining work; every
+    task has complete test code, implementation code, and commands)
+  BRAINSTORMING-NOTES.txt (earlier design-phase write-up)
+
+========================================================================
+2. ENVIRONMENT NOTES (matter for resuming)
+========================================================================
+- Machine: Windows 11, PowerShell. Repo: C:\Users\hhavens1\EvilI,
+  working branch `build` (master holds only docs commits).
+- Node.js 24.16.0 LTS was installed via winget DURING this session.
+  Running shells may not see it: prepend to PATH in every command:
+    $env:Path = 'C:\Program Files\nodejs;' + $env:Path; <command>
+  (A brand-new terminal/session after reboot should have it normally.)
+- npm packages installed (node_modules ~ a few hundred MB, gitignored).
+- Disk space: ample (1.3 TB free at check). No other requirements
+  encountered yet. Still ahead: Task 20 downloads ~10 MB of public-
+  domain novels from gutenberg.org; Task 22 needs a GitHub account +
+  repo named EvilI (or adjust `base` in vite.config.ts) and Pages
+  enabled with Source = GitHub Actions.
+
+========================================================================
+3. EXECUTION PROGRESS (subagent-driven, per-task spec + quality review)
+========================================================================
+DONE — Task 1: Vite+TS+Vitest scaffold ........... commit 603eb14
+DONE — Task 2: engine types & score bands ........ commit 0c792ff
+DONE — Task 3: dictionary + period variants ...... commits f7c3618, ee25dc9
+DONE — Task 4: typography/spelling normalization . commit 943ba48
+DONE — Task 5: OCR remediation ................... commits 29c8c23, b852c8d
+DONE — Task 6: TEI/XML stripping ................. commit 83ac9f6
+DONE — Task 7: segmentation + dialogue masking ... commit b932397
+Test suite at pause: 26 tests, all passing; `npx tsc --noEmit` clean.
+
+Review notes worth remembering:
+- Task 1 quality reviewer wrongly flagged docs files as in the scaffold
+  commit (it had read the tree, not the diff) — overruled with evidence.
+- Task 3 review added a variantOf() unit test (commit ee25dc9).
+- Task 5 review suggested deleting the single-substitution OCR repair
+  path as "redundant" — REJECTED: words like "fatisfy" (one true f, one
+  long-s misread) need it; replacing all f's gives non-word "satissy".
+  A regression test now guards this (commit b852c8d). Do not "simplify"
+  that path away.
+
+========================================================================
+4. WHAT REMAINS (Tasks 8–22, in order; full detail in the plan doc)
+========================================================================
+  8. NLP wrapper (src/engine/nlp.ts) + Judgment 1 perspective detection
+     (regex pronoun densities on dialogue-masked narration)  <- NEXT
+  9. Six lexicon JSON files + loader (vice, virtue, selfPresentation,
+     hedging, justification, retraction)
+ 10. Attribution & evidence extraction (the hard one: first-person
+     agency, negation, phrase hits, contradiction detection)
+ 11. Judgment 3: morality scoring
+ 12. Judgment 2: reliability index
+ 13. analyze() orchestrator
+ 14. Web Worker + client
+ 15. UI shell + input view (paste/upload/corpus shelf)
+ 16. Results view: verdict cards + evidence explorer + OCR banner
+ 17. SVG charts + PNG/SVG export
+ 18. Comparison view
+ 19. JSON/CSV export
+ 20. Sample corpus fetch (Gutenberg) + literary validation suite
+     (directional assertions: Moll less reliable than Plague Year, etc.)
+ 21. Methodology page, README, CITATION.cff (confirm author details
+     with the user before committing CITATION)
+ 22. GitHub Actions test-gated deploy + user enables Pages
+
+After Task 22: final whole-implementation code review, then merge
+`build` into master (superpowers:finishing-a-development-branch), push
+to GitHub, enable Pages. Also report to user: lexicon curation status
+and the SVG-instead-of-Chart.js deviation (both flagged in the plan).
+
+========================================================================
+5. HOW TO RESUME
+========================================================================
+Best: run `claude --resume` from C:\Users\hhavens1\EvilI and pick this
+session — full conversation context restores automatically.
+Otherwise in a fresh session say: "Resume the EvilI build — read
+SESSION-LOG.txt, then continue the implementation plan at Task 8 using
+subagent-driven development (superpowers:subagent-driven-development),
+plan file docs/superpowers/plans/2026-06-11-evili-implementation.md."
+Process used so far: fresh implementer subagent per task (haiku for
+mechanical tasks, sonnet for tricky ones), then a spec-compliance
+review subagent, then a code-quality review subagent; fixes looped back
+before marking complete. User asked to be checked in with about any new
+machine/space/account requirements as they come up.
