@@ -1,0 +1,146 @@
+/* src/ui/styles.css */
+
+:root {
+  --c-hedging: #8e7cc3;
+  --c-justification: #e69138;
+  --c-retraction: #cc0000;
+  --c-contradiction: #990000;
+  --c-vice: #b45309;
+  --c-virtue: #2e7d32;
+  --c-self: #1d6fa5;
+
+  --bg: #faf8f4;
+  --fg: #1a1a1a;
+  --border: #ccc;
+  --muted: #666;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Georgia, 'Iowan Old Style', serif;
+  background: var(--bg);
+  color: var(--fg);
+  margin: 0;
+  padding: 1rem;
+  line-height: 1.6;
+}
+
+#app {
+  max-width: 60rem;
+  margin: 0 auto;
+}
+
+/* Input view */
+.input-view h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.25rem;
+  letter-spacing: 0.05em;
+}
+
+.tagline {
+  color: var(--muted);
+  font-size: 0.95rem;
+  margin-bottom: 1.5rem;
+}
+
+.tagline a {
+  color: var(--c-self);
+}
+
+textarea#paste-box {
+  width: 100%;
+  padding: 0.75rem;
+  font-family: inherit;
+  font-size: 0.95rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  resize: vertical;
+  background: #fff;
+  color: var(--fg);
+  margin-bottom: 1rem;
+}
+
+.upload-zone {
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.upload-zone label {
+  cursor: pointer;
+}
+
+.upload-zone input[type="file"] {
+  display: block;
+  margin-top: 0.4rem;
+}
+
+/* Corpus shelf */
+.corpus-shelf {
+  margin-bottom: 1.5rem;
+}
+
+.corpus-shelf h2 {
+  font-size: 1rem;
+  font-weight: normal;
+  font-style: italic;
+  color: var(--muted);
+  margin-bottom: 0.75rem;
+}
+
+.corpus-card {
+  display: inline-block;
+  margin: 0.25rem 0.5rem 0.25rem 0;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: #fff;
+  color: var(--fg);
+  font-family: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+  text-align: left;
+  line-height: 1.4;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.corpus-card:hover {
+  border-color: var(--c-self);
+  background: #f0f4ff;
+}
+
+/* Analyze button */
+#analyze-btn {
+  display: block;
+  padding: 0.65rem 2rem;
+  background: var(--c-self);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-bottom: 0.75rem;
+  transition: background 0.15s;
+}
+
+#analyze-btn:hover {
+  background: #155d8d;
+}
+
+/* Error / status */
+.error {
+  color: var(--c-retraction);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.working {
+  color: var(--muted);
+  font-style: italic;
+  margin-top: 3rem;
+  text-align: center;
+}
