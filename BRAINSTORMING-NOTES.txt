@@ -1,0 +1,155 @@
+EvilI — Unreliable First-Person Narrator Detection Tool
+Brainstorming Session Notes
+Date: 2026-06-11
+Status: PAUSED mid-design-review. Sections 1 and 2 of the design were
+presented and APPROVED (Section 2 approval pending — user paused before
+answering). Remaining: Sections 3+ (lexicons & period handling, UI/outputs,
+documentation/rigor layer, testing), then write design doc, then
+implementation plan.
+
+========================================================================
+PROJECT GOAL
+========================================================================
+A tool to detect unreliable first-person narratives, focused on texts of
+the long eighteenth century in Britain. For each input text it determines:
+  1. Whether the text is first-person narration
+  2. Whether the narrator is reliable
+  3. How moral the narrator is, on a virtuous-to-immoral scale
+Accepts a single text or a group of texts. Deployed as a website on
+GitHub Pages.
+
+========================================================================
+DECISIONS MADE (all confirmed by user)
+========================================================================
+
+ANALYSIS ENGINE: In-browser NLP heuristics (pure JavaScript/TypeScript,
+no LLM, no server, no API keys). All analysis runs locally in the
+visitor's browser. Trade-off accepted: judgments are approximations from
+measurable textual proxies; methodology must be transparent.
+
+AUDIENCE: Dual. Rigorous enough for researchers (documentation, citable
+metrics, visible reasoning, exportable data) AND user-friendly for
+students and the general public.
+
+RELIABILITY SIGNALS: All four included, with hedging weighted LOWER:
+  S1. Hedging & uncertainty markers ............ weight 1
+  S2. Self-justification & reader appeals ...... weight 2
+  S3. Deed/word discrepancy .................... weight 2
+  S4. Internal contradiction & retraction ...... weight 2
+Rationale for low S1 weight: hedging alone can be period style or
+genuine modesty rather than unreliability.
+
+MORALITY SCORE: Both bases, reported separately:
+  - Deeds score: vice/virtue lexicon counted only when attributed to
+    first-person agency ("I stole" counts; "he stole" doesn't), with
+    negation handling ("I never stole" doesn't count).
+  - Self-presentation score: moral register of the narrator's
+    self-descriptive language.
+  The gap between the two scores IS signal S3 (deed/word discrepancy).
+  Scale: -100 to +100, labeled bands: virtuous / mostly virtuous /
+  ambiguous / questionable / immoral.
+
+TEXT INPUT (all four):
+  - Paste text into a textbox
+  - Upload .txt files (multiple at once, batch analysis)
+  - Upload TEI/XML (e.g., ECCO-TCP), markup stripped automatically
+  - Built-in sample corpus of public-domain texts (proposed: Moll
+    Flanders, Pamela, Gulliver's Travels, A Journal of the Plague Year,
+    Roxana)
+
+OUTPUTS (all four):
+  - Scores with quoted evidence passages highlighted in context
+  - Charts & visualizations (virtue-vice gauge, deed vs. self-
+    presentation comparison, chapter-by-chapter timeline of reliability
+    and morality across the narrative arc)
+  - Exportable data: CSV and JSON downloads
+  - Cross-text comparison view (side-by-side table when multiple texts
+    loaded)
+
+ARCHITECTURE: Option B — Vite + TypeScript static app with a browser
+NLP library (wink-nlp, possibly compromise) for tokenization, sentence
+splitting, POS tagging, negation. Analysis runs in a Web Worker so long
+novels don't freeze the page. Chart.js for visualizations. Deployed to
+GitHub Pages via GitHub Actions on push to main.
+
+========================================================================
+DESIGN SECTION 1 — ARCHITECTURE & DATA FLOW (USER APPROVED)
+========================================================================
+Fully static SPA. No server; no user data leaves the browser.
+Four cleanly separated layers:
+
+1. INGESTION — paste / .txt upload / TEI-XML / sample corpus. Normalizes
+   18th-century typography before analysis: long s (folio s -> s), u/v
+   and i/j interchange, common variant spellings (chuse/choose,
+   shew/show) so lexicons match the texts.
+
+2. ANALYSIS ENGINE — pure TypeScript module (no UI dependencies) in a
+   Web Worker, using wink-nlp. Text in -> structured JSON report out:
+   three judgments, all sub-scores, every evidence passage with
+   location. Pure function of the text = independently testable; this
+   is the citable, documented engine. Could also run from command line
+   nearly for free.
+
+3. PRESENTATION — UI: scores, highlighted evidence in context, Chart.js
+   charts, cross-text comparison table.
+
+4. EXPORT — serializes engine JSON report to CSV and JSON downloads.
+
+Key boundary: the engine knows nothing about the website; nothing the
+UI shows is computed anywhere else.
+
+========================================================================
+DESIGN SECTION 2 — ANALYSIS PIPELINE (PRESENTED; APPROVAL PENDING)
+========================================================================
+Three judgments in sequence:
+
+JUDGMENT 1 — First-person detection. Per text AND per chapter (catches
+frame narratives). Ratio of first-person pronouns to third-person
+narrative pronouns in NARRATION ONLY (quoted dialogue detected and
+excluded, since third-person novels are full of characters saying "I").
+Plus narratorial self-reference patterns ("I shall now relate"). Output:
+verdict (first-person / third-person / mixed-epistolary) + confidence.
+If not first-person, tool stops — reliability/morality not computed.
+
+JUDGMENT 2 — Reliability index, 0-100 (100 = maximally reliable).
+Four signals, each a normalized per-1,000-words density (comparable
+across text lengths), weighted sum inverted and scaled:
+  S1 (w=1): epistemic markers ("perhaps," "methinks," "I cannot tell,"
+      "if I remember right," "I know not"), memory disclaimers.
+  S2 (w=2): excuse vocabulary tied to first-person agency ("I was
+      driven by necessity"), reader management ("the reader must
+      consider," "let none judge me"), rhetorical self-defense.
+  S3 (w=2): gap between the two morality scores from Judgment 3.
+  S4 (w=2): retraction phrases ("but in truth," "to confess the truth,"
+      "as I falsely said") + negation reversals (assert then later
+      negate same lexical content).
+Every signal hit stored with sentence, location, and triggering signal
+-> these become the highlighted evidence passages.
+
+JUDGMENT 3 — Morality, two scores on -100..+100 virtuous<->immoral
+scale (see DECISIONS above). All scores also computed per
+chapter/segment -> powers the narrative-arc timeline chart.
+
+Caveat baked in: every score ships labeled "computational estimate from
+lexical evidence — see methodology"; docs state plainly what each
+signal can and cannot detect (e.g., S4 catches explicit retractions,
+not subtle inconsistency a human reader would notice).
+
+========================================================================
+NEXT STEPS ON RESUME
+========================================================================
+1. Confirm approval of Design Section 2 (analysis pipeline above).
+2. Present remaining design sections:
+   - Section 3: Lexicons & 18th-century language handling (sources for
+     vice/virtue/hedging lexicons, period spelling normalization detail)
+   - Section 4: UI & outputs detail
+   - Section 5: Documentation / methodology layer for researchers
+   - Section 6: Testing strategy
+3. Write design doc to docs/superpowers/specs/2026-06-11-evili-design.md
+   (or dated for resume day), spec self-review, user review.
+4. Invoke writing-plans skill -> implementation plan -> build.
+
+Process note: this session followed the superpowers brainstorming skill
+(one question at a time -> approaches -> sectioned design review).
+Resume with: "Let's resume the EvilI design — see BRAINSTORMING-NOTES.txt"
+(or use claude --resume to restore the full session).
