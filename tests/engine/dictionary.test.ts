@@ -19,4 +19,9 @@ describe('dictionary', () => {
   it('is case-insensitive', () => {
     expect(dict.isKnown('Desire')).toBe(true);
   });
+  it('maps period variants to modern forms via variantOf', () => {
+    expect(dict.variantOf('chuse')).toBe('choose');
+    expect(dict.variantOf('Shew')).toBe('show');
+    expect(dict.variantOf('desire')).toBeUndefined();
+  });
 });
