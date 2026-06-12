@@ -160,8 +160,8 @@
           </tr>
           <tr>
             <td><strong>S3 — Deed/word discrepancy</strong></td>
-            <td>2</td>
-            <td>The gap between the narrator's self-presentation morality score and their deeds morality score from Judgment 3: <code>max(0, selfPresentation − deeds) / 2</code>. A narrator who claims to be virtuous but whose attributed actions score otherwise registers a high S3. This is the only signal not derived from the lexicons directly.</td>
+            <td>4</td>
+            <td>The gap between the narrator's self-presentation morality score and their deeds morality score from Judgment 3: <code>max(0, selfPresentation − deeds) / 2</code>. A narrator who claims to be virtuous but whose attributed actions score otherwise registers a high S3. This is the only signal not derived from the lexicons directly, and in v0.2.0 it carries the heaviest weight: being other than one presents oneself is the most direct marker of an unreliable narrator.</td>
           </tr>
           <tr>
             <td><strong>S4 — Retraction &amp; contradiction</strong></td>
@@ -173,10 +173,11 @@
 
       <p>For S1, S2, and S4, the density is the sum of weighted hits divided by recognized-word count, scaled to per-1,000 words. The formula (verified against <code>src/engine/judgment2.ts</code>):</p>
 
-      <div class="formula-block">W1 = 1,  W2 = 2,  W3 = 2,  W4 = 2
+      <div class="formula-block">W1 = 1,  W2 = 2,  W3 = 4,  W4 = 2    (v0.2.0: gap S3 weighted highest, hedging S1 lowest)
 DENSITY_SCALE = 10   (10 weighted hits per 1,000 words = full penalty for that signal)
+SENSITIVITY = 3.7    (v0.2.0 global multiplier; tuned so the reliable control stays ≥ 60)
 
-penalty = (
+penalty = SENSITIVITY × (
     W1 × min(s1 × DENSITY_SCALE, 100) +
     W2 × min(s2 × DENSITY_SCALE, 100) +
     W4 × min(s4 × DENSITY_SCALE, 100) +

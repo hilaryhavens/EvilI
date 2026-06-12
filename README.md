@@ -130,7 +130,7 @@ Output goes to `dist/`. Both `dist/index.html` and `dist/methodology.html` are b
 
 ## Citation
 
-See `CITATION.cff` or use GitHub's "Cite this repository" button. Please include the methodology version (currently `0.1.0`) when reporting scores in publications — lexicon revisions change outputs.
+See `CITATION.cff` or use GitHub's "Cite this repository" button. Please include the methodology version (currently `0.2.0`) when reporting scores in publications — lexicon and formula revisions change outputs.
 
 ---
 
