@@ -28,14 +28,19 @@ Then open http://localhost:5173/EvilI/ in your browser.
 ## Running tests
 
 ```bash
-# Full suite (79 tests)
+# Full suite
 npx vitest run
 
-# Validation suite only (requires corpus files in public/corpus/)
+# Directional validation (requires corpus files in public/corpus/)
 npx vitest run tests/validation.test.ts
+
+# Answer-key validation (requires the larger corpus/ folder + extracted fixtures)
+npx vitest run tests/corpus-validation.test.ts
 ```
 
-The validation suite runs the engine against three of the five bundled public-domain texts — *Moll Flanders*, *A Journal of the Plague Year*, and *Pamela* (the sample shelf also includes *Gulliver's Travels* and *Roxana*) — and asserts directional orderings aligned with critical consensus (e.g., Moll Flanders less reliable than the Journal). If the corpus files are absent, those tests are automatically skipped. Recorded scores for methodology v0.1.0 are in the comment at the top of `tests/validation.test.ts`.
+The directional suite runs the engine against three of the five bundled public-domain texts — *Moll Flanders*, *A Journal of the Plague Year*, and *Pamela* (the sample shelf also includes *Gulliver's Travels* and *Roxana*) — and asserts orderings aligned with critical consensus (e.g., Moll Flanders less reliable than the Journal). If the corpus files are absent, those tests are automatically skipped.
+
+The **answer-key suite** (`tests/corpus-validation.test.ts`) checks the methodology v0.2.0 recalibration against a labeled corpus in `corpus/`. v0.2.0 fixes an inverted deed-attribution (abstract virtue-*talk* was being counted as virtuous *deeds*), removes high-frequency noise forms, adds scheming/manipulation vocabulary, and weights the reliability index toward the **deed / self-presentation gap** — the most direct operationalization of an unreliable narrator (being other than one presents oneself). The suite asserts that five confessional narrators (*Moll Flanders*, *Lolita*, *Caleb Williams*, *The Good Soldier*, *Tristram Shandy*) score below 40 ("unreliable") and below the reliable control — *Clarissa Harlowe's* own letters, extracted from *Clarissa*, which stay ≥ 60. The header comment of that file records the achieved scores and honestly documents the texts the lexical model cannot separate (e.g. *Lovelace*'s letters, which score *below* Clarissa on every signal because he confesses his villainy frankly and so never misrepresents himself). Regenerate the extracted letter fixtures with `node scripts/extract-letters.mjs`. Report the methodology version (currently `0.2.0`) with any published scores.
 
 ---
 

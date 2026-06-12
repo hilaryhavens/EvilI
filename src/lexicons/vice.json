@@ -21,5 +21,14 @@
   { "term": "idle", "forms": ["idleness", "sloth", "slothful"], "weight": 1 },
   { "term": "ruin", "forms": ["ruined", "undone", "debauchery"], "weight": 1 },
   { "term": "plunder", "forms": ["plunder", "plundered", "pillage", "pillaged"], "weight": 3 },
-  { "term": "abandon", "forms": ["abandoned", "forsook", "forsaken", "deserted"], "weight": 1 }
+  { "term": "abandon", "forms": ["abandoned", "forsook", "forsaken", "deserted"], "weight": 1 },
+  { "term": "contrive", "forms": ["contrive", "contrived", "contriving", "contrivance", "contrivances"], "weight": 2 },
+  { "term": "plot", "forms": ["plotted", "plotting", "machination", "machinations"], "weight": 2 },
+  { "term": "scheme", "forms": ["schemed", "scheming", "schemes"], "weight": 2 },
+  { "term": "stratagem", "forms": ["stratagem", "stratagems", "artifice", "artifices"], "weight": 2 },
+  { "term": "revenge", "forms": ["revenged", "revenging", "avenge", "avenged", "vengeance"], "weight": 2 },
+  { "term": "intrigue", "forms": ["intrigued", "intriguing", "intrigues"], "weight": 2 },
+  { "term": "ensnare", "forms": ["ensnare", "ensnared", "entrap", "entrapped", "snared"], "weight": 3 },
+  { "term": "delude", "forms": ["delude", "deluded", "deluding", "beguile", "beguiled"], "weight": 2 },
+  { "term": "tyrannize", "forms": ["tyrannize", "tyrannized", "oppressed", "domineer", "domineered"], "weight": 2 }
 ] }

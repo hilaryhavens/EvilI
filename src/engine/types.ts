@@ -1,4 +1,4 @@
-export const METHODOLOGY_VERSION = '0.1.0';
+export const METHODOLOGY_VERSION = '0.2.0';
 
 export type Signal =
   | 'hedging' | 'justification' | 'retraction' | 'contradiction'
