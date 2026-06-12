@@ -288,3 +288,27 @@ mark.filtered {
   font-style: italic;
   margin: 0.5rem 0 1rem;
 }
+
+/* Comparison table */
+table.comparison {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+}
+
+table.comparison th {
+  cursor: pointer;
+  border: 1px solid var(--border);
+  padding: 0.5rem;
+  text-align: left;
+  background: #f5f5f5;
+}
+
+table.comparison td {
+  border: 1px solid var(--border);
+  padding: 0.5rem;
+}
+
+table.comparison tbody tr:hover {
+  background: #f9f9f9;
+}
