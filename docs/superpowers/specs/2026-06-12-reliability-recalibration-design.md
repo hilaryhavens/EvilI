@@ -41,6 +41,46 @@ single-author letters are scored. The whole-file scores are unconstrained.
   "substantially/profoundly unreliable").
 - No UI changes.
 
+## Revision 2026-06-12 (post-baseline): principled rebuild
+
+The original plan assumed a single global `SENSITIVITY` multiplier could move the
+corpus below 40. Baseline measurement disproved this. The four signals do **not**
+separate the unreliable narrators from the Clarissa control — by the current
+features Clarissa hedges and justifies *more* than Lovelace:
+
+| Text | Index | Hedge | Just | Gap(s3) | Contra | Deeds | SelfPres |
+|------|-------|-------|------|---------|--------|-------|----------|
+| Lovelace (target <40) | 87.7 | 3.54 | 0.33 | 0.0 | 2.21 | +53 | 9.1 |
+| Clarissa (control ≥60) | 86.1 | 3.95 | 0.41 | 0.0 | 2.46 | +69.8 | −9.2 |
+| Lady Susan (target <40) | 80.4 | 2.95 | 0.0 | 0.0 | 5.38 | +90 | 0 |
+| Castle Rackrent (target <40) | 92.0 | 1.24 | 0.26 | 0.0 | 1.92 | +100 | 48.9 |
+
+Root cause: the **deeds** score is inverted. `virtue.json` conflates genuine
+deed-verbs (`repent`, `give`, `forgive`, `restore`, `confess`) with abstract
+virtue-*attributes* (`duty`, `piety`, `faithful`, `prudence`, `humility`, `virtue`,
+`honest`, `chaste`, `temperance`, `mercy`). A rhetorician like Lovelace who invokes
+"honour/duty/faithful" registers as virtuous-acting (+53) although he commits no
+virtuous deeds. Meanwhile `vice.json` lacks the manipulation vocabulary
+(`contrive`, `plot`, `scheme`, `dissemble`, `artifice`, `design`, `revenge`) that
+actually marks these narrators. So the **hypocrisy gap (s3)** — the correct literary
+marker of unreliability — never opens.
+
+**Principled rebuild (user-approved):**
+1. Reclassify `virtue.json`: keep only genuine first-person virtuous *action* verbs.
+   The abstract virtue-attributes already exist in `selfPresentation.json` (positive
+   polarity), so deeds stops being inflated by mere virtue-talk.
+2. Expand `vice.json` with the scheming/manipulation/cruelty verbs that genuinely
+   appear in the unreliable narrators (verified by frequency, and checked to be rare
+   in Clarissa's letters) — never terms chosen to fire only on specific titles.
+3. Recalibrate `judgment2.ts`: increase sensitivity and lean the weighting toward the
+   now-functional hypocrisy gap (s3) and justification (s2).
+4. **Honesty constraint:** report the actual achieved index for every text. The goal
+   is all ten texts + Lovelace + Lady Susan < 40 and Clarissa ≥ 60, but unreliability
+   is heterogeneous (e.g. Castle Rackrent's ironic servant-narrator is not lexically
+   self-justifying) and some texts may not reach < 40. We do **not** hardcode titles
+   or contrive title-specific terms to force the targets; the tool must remain a
+   genuine detector. Texts that miss are documented, not faked.
+
 ## Approach (hybrid)
 
 ### 1. Letter extraction script — `scripts/extract-letters.mjs`
