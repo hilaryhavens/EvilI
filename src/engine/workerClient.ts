@@ -15,6 +15,12 @@ function getWorker(): Worker {
       if (e.data.ok && e.data.report) p.resolve(e.data.report);
       else p.reject(new Error(e.data.error ?? 'analysis failed'));
     };
+    // A crash outside the worker's own try/catch (e.g. module load failure)
+    // never posts a message; reject everything pending so the UI doesn't hang.
+    worker.onerror = (e: ErrorEvent) => {
+      for (const p of pending.values()) p.reject(new Error(e.message || 'worker error'));
+      pending.clear();
+    };
   }
   return worker;
 }

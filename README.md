@@ -35,7 +35,7 @@ npx vitest run
 npx vitest run tests/validation.test.ts
 ```
 
-The validation suite runs the engine against three bundled public-domain texts — *Moll Flanders*, *A Journal of the Plague Year*, and *Pamela* — and asserts directional orderings aligned with critical consensus (e.g., Moll Flanders less reliable than the Journal). If the corpus files are absent, those tests are automatically skipped. Recorded scores for methodology v0.1.0 are in the comment at the top of `tests/validation.test.ts`.
+The validation suite runs the engine against three of the five bundled public-domain texts — *Moll Flanders*, *A Journal of the Plague Year*, and *Pamela* (the sample shelf also includes *Gulliver's Travels* and *Roxana*) — and asserts directional orderings aligned with critical consensus (e.g., Moll Flanders less reliable than the Journal). If the corpus files are absent, those tests are automatically skipped. Recorded scores for methodology v0.1.0 are in the comment at the top of `tests/validation.test.ts`.
 
 ---
 
@@ -105,7 +105,7 @@ src/
 tests/
   *.test.ts        Vitest unit tests (79 tests total)
 public/
-  corpus/          Bundled sample texts (Moll Flanders, Plague Year, Pamela)
+  corpus/          Bundled sample texts (Moll Flanders, Plague Year, Gulliver, Pamela, Roxana)
 methodology.html   Methodology documentation (Vite entry point)
 index.html         Main app (Vite entry point)
 CITATION.cff       Citation metadata
