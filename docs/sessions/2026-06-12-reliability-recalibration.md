@@ -132,3 +132,27 @@ npx vitest run                              # full suite (87 tests)
 
 The `corpus/` folder is git-untracked (large public-domain texts); the validation
 auto-skips if it is absent.
+
+## 8. Integration, deploy, and polish (same session, after the rebuild)
+
+After the recalibration was reviewed, Hilary directed the remaining steps:
+
+- **Merge & deploy.** The `recalibrate-reliability-v0.2.0` branch was merged
+  `--no-ff` into `master` (tests re-verified green on the merged result, 87/87), the
+  branch deleted, and `master` pushed to `origin`. The push triggered the
+  `Test and deploy to GitHub Pages` workflow, which ran the suite, built, and
+  deployed — v0.2.0 went live at <https://hilaryhavens.github.io/EvilI/>.
+- **Light-teal background.** `--bg` in `src/ui/styles.css` changed from `#faf8f4`
+  to **`#cfecec`**. Because `methodology.html` imports the same stylesheet, both the
+  tool and the methodology page now carry the light-teal page background; the white
+  content cards and the seven signal colors are unchanged. Build verified, pushed,
+  redeployed green.
+- **CI action bump.** The deploy run surfaced a GitHub deprecation notice (Node 20
+  actions retiring mid-June 2026). `.github/workflows/deploy.yml` was bumped to the
+  current Node-24 majors: `actions/checkout@v6`, `actions/setup-node@v6`,
+  `actions/upload-pages-artifact@v5`, `actions/deploy-pages@v5` (versions confirmed
+  via the GitHub releases API rather than guessed). The next run completed green with
+  **no annotations** — warning silenced.
+
+End state on the live site: methodology v0.2.0, light-teal (`#cfecec`) background,
+and a warning-free Node-24 CI pipeline.
