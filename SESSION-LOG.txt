@@ -124,3 +124,35 @@ mechanical tasks, sonnet for tricky ones), then a spec-compliance
 review subagent, then a code-quality review subagent; fixes looped back
 before marking complete. User asked to be checked in with about any new
 machine/space/account requirements as they come up.
+
+========================================================================
+SESSION 2 UPDATE (2026-06-11, later)
+========================================================================
+PAUSED at user request. Tasks 8-15 of 22 COMPLETE on branch `build`.
+Suite: 65 tests green; tsc clean; npm run build clean. Head: 0be76f1.
+
+DONE this session:
+- Task 8:  perspective detection (files were already on disk verbatim
+           from prior session; committed e776c1c, reviewed, extra tests
+           + contract comments 8833b18)
+- Task 9:  seed lexicons + loader (71a559f). Controller fixes: plan had
+           an off-by-one (test >10 vs 10 retraction entries) -> assertion
+           relaxed to >=10, invented 11th entry removed (dad9ee6);
+           "no doubt" rerouted as phrase + JSON imports properly typed
+           instead of `as never` (3c2882f).
+- Task 10: evidence extraction (ec0deb8). Opus review found CRITICAL
+           offset off-by-one (first-token precedingSpaces) + repeated-
+           sentence misresolution + O(n^2) indexOf -> fixed with
+           monotonic cursor + 2 offset-exactness tests (ef16da2).
+- Task 11: morality scoring (8c9e6a5, verbatim per plan).
+- Task 12: reliability index (5c3b0dd, verbatim per plan).
+- Task 13: analyze() orchestrator (c250e6c, verbatim; 63 tests).
+- Task 14: web worker + client (dfb838d, verbatim; build verified).
+- Task 15: app shell + input view (0be76f1). jsdom devDependency added,
+           // @vitest-environment jsdom pragma on UI test. 65 tests.
+           NOTE: post-commit review subagent was declined twice by the
+           user, then session paused -> Task 15 review NOT yet done.
+           On resume ask: review inline (no subagent) or skip?
+
+NEXT: Task 16 (results view: verdict cards, evidence explorer, OCR
+banner), then 17-22 per plan. Same process unless user redirects.
