@@ -43,7 +43,7 @@ const FLAGGED = [
 
 const filesPresent =
   FLAGGED.every((f) => existsSync(corpus(f))) &&
-  ['clarissa-harlowe.txt'].every((f) => existsSync(fixture(f)));
+  existsSync(fixture('clarissa-harlowe.txt'));
 
 const indexOf = (p: string, title: string) =>
   analyze(readFileSync(p, 'utf-8'), title).reliability!.index;

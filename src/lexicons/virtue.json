@@ -2,7 +2,7 @@
   { "term": "repent", "forms": ["repent", "repented", "repenting", "repentance"], "weight": 3 },
   { "term": "pray", "forms": ["prayed", "praying", "prayers"], "weight": 2 },
   { "term": "charity", "forms": ["alms", "almsgiving", "charitably"], "weight": 3 },
-  { "term": "give", "forms": ["bestowed", "succoured", "succored", "almsgiving"], "weight": 1 },
+  { "term": "give", "forms": ["bestowed", "succoured", "succored"], "weight": 1 },
   { "term": "forgive", "forms": ["forgive", "forgave", "forgiven", "forgiveness", "pardoned"], "weight": 2 },
   { "term": "labour", "forms": ["laboured", "labored", "toiled"], "weight": 2 },
   { "term": "confess", "forms": ["confessed", "confession", "acknowledged"], "weight": 2 },
