@@ -9,6 +9,10 @@
   --c-virtue: #2e7d32;
   --c-self: #1d6fa5;
 
+  --accent: #0f766e;        /* teal — page chrome (links, buttons, hovers) */
+  --accent-dark: #0c5f58;
+  --accent-tint: #f0fdfa;
+
   --bg: #faf8f4;
   --fg: #1a1a1a;
   --border: #ccc;
@@ -20,7 +24,7 @@
 }
 
 body {
-  font-family: Georgia, 'Iowan Old Style', serif;
+  font-family: Garamond, 'EB Garamond', 'Adobe Garamond Pro', 'Palatino Linotype', 'Book Antiqua', Georgia, serif;
   background: var(--bg);
   color: var(--fg);
   margin: 0;
@@ -47,7 +51,11 @@ body {
 }
 
 .tagline a {
-  color: var(--c-self);
+  color: var(--accent);
+}
+
+a {
+  color: var(--accent);
 }
 
 textarea#paste-box {
@@ -108,15 +116,15 @@ textarea#paste-box {
 }
 
 .corpus-card:hover {
-  border-color: var(--c-self);
-  background: #f0f4ff;
+  border-color: var(--accent);
+  background: var(--accent-tint);
 }
 
 /* Analyze button */
 #analyze-btn {
   display: block;
   padding: 0.65rem 2rem;
-  background: var(--c-self);
+  background: var(--accent);
   color: #fff;
   border: none;
   border-radius: 4px;
@@ -128,7 +136,7 @@ textarea#paste-box {
 }
 
 #analyze-btn:hover {
-  background: #155d8d;
+  background: var(--accent-dark);
 }
 
 /* Error / status */
@@ -310,5 +318,34 @@ table.comparison td {
 }
 
 table.comparison tbody tr:hover {
-  background: #f9f9f9;
+  background: var(--accent-tint);
+}
+
+/* Multi-text report tabs */
+.report-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 1rem 0;
+}
+
+.report-tabs button {
+  padding: 0.35rem 0.9rem;
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--accent);
+  font-family: inherit;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.report-tabs button:hover {
+  background: var(--accent-tint);
+}
+
+.report-tabs button.active {
+  background: var(--accent);
+  color: #fff;
 }

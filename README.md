@@ -1,8 +1,8 @@
-# EvilI — Narrator Analysis for Eighteenth-Century British Texts
+# Evil I — Narrator Analysis for Eighteenth-Century British Texts
 
 **Live site:** https://hilaryhavens.github.io/EvilI/
 
-EvilI is an in-browser tool that analyzes texts of the long eighteenth century in Britain and reports three things about the narrator:
+Evil I is an in-browser tool that analyzes texts of the long eighteenth century in Britain and reports three things about the narrator:
 
 1. **Perspective** — first-person, third-person, or mixed/epistolary (with confidence)
 2. **Reliability index** (0–100; 100 = maximally reliable) — derived from hedging density, self-justification phrases, the gap between deeds and self-presentation, and explicit retractions or contradictions

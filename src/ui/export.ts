@@ -43,13 +43,13 @@ export function renderExportButtons(slot: HTMLElement, reports: AnalysisReport[]
     <button id="exp-csv">Download CSV (metrics)</button>
     <button id="exp-hits">Download CSV (evidence hits)</button></div>`;
   slot.querySelector('#exp-json')!.addEventListener('click', () =>
-    download('evili-report.json',
+    download('evil-i-report.json',
       new Blob([reports.length === 1 ? reportToJson(reports[0])
         : '[' + reports.map(reportToJson).join(',') + ']'],
         { type: 'application/json' })));
   slot.querySelector('#exp-csv')!.addEventListener('click', () =>
-    download('evili-metrics.csv', new Blob([reportsToCsv(reports)], { type: 'text/csv' })));
+    download('evil-i-metrics.csv', new Blob([reportsToCsv(reports)], { type: 'text/csv' })));
   slot.querySelector('#exp-hits')!.addEventListener('click', () =>
-    download('evili-evidence.csv',
+    download('evil-i-evidence.csv',
       new Blob([reports.map(hitsToCsv).join('\n')], { type: 'text/csv' })));
 }

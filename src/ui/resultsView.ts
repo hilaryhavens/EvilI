@@ -25,15 +25,31 @@ export function showResults(
   root.appendChild(back);
 
   if (reports.length > 1) {
-    // comparison entry point added in Task 18
     const slot = document.createElement('div');
     slot.id = 'comparison-slot';
     root.appendChild(slot);
     import('./comparisonView').then(({ renderComparison }) =>
-      renderComparison(slot, reports, (r) => renderSingle(root, r)),
+      renderComparison(slot, reports, (r) => selectReport(root, r)),
     ).catch(() => {});
+
+    const tabs = document.createElement('div');
+    tabs.className = 'report-tabs';
+    for (const r of reports) {
+      const tab = document.createElement('button');
+      tab.textContent = r.title;
+      tab.dataset.title = r.title;
+      tab.addEventListener('click', () => selectReport(root, r));
+      tabs.appendChild(tab);
+    }
+    root.appendChild(tabs);
   }
-  renderSingle(root, reports[0]);
+  selectReport(root, reports[0]);
+}
+
+function selectReport(root: HTMLElement, r: AnalysisReport): void {
+  root.querySelectorAll<HTMLElement>('.report-tabs button').forEach((b) =>
+    b.classList.toggle('active', b.dataset.title === r.title));
+  renderSingle(root, r);
 }
 
 export function renderSingle(root: HTMLElement, r: AnalysisReport): void {

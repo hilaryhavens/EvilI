@@ -7,7 +7,7 @@ export function renderInputView(
 ): void {
   root.innerHTML = `
     <section class="input-view">
-      <h1>EvilI</h1>
+      <h1>Evil I</h1>
       <p class="tagline">Detecting unreliable first-person narrators in
         eighteenth-century British texts. Analysis runs entirely in your browser
         &mdash; nothing you paste or upload ever leaves this page.

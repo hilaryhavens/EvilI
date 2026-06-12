@@ -71,7 +71,7 @@ export function renderComparison(
       });
       const slot = root.querySelector<HTMLElement>('#comparison-scatter')!;
       slot.innerHTML = svg + chartExportButtons('scatter');
-      wireChartExport(slot, svg, 'evili-comparison-scatter');
+      wireChartExport(slot, svg, 'evil-i-comparison-scatter');
     }
   };
   draw();

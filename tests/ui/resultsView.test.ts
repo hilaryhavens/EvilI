@@ -25,4 +25,17 @@ describe('showResults', () => {
     showResults(el, [tp], () => {});
     expect(el.querySelectorAll('.verdict-card.disabled').length).toBe(2);
   });
+  it('renders toggle tabs for multiple texts and switches on click', () => {
+    const second = analyze('I prayed daily and I gave alms to the poor; I laboured with diligence.', 'Second Text');
+    const el = document.createElement('div');
+    showResults(el, [report, second], () => {});
+    const tabs = el.querySelectorAll<HTMLButtonElement>('.report-tabs button');
+    expect(tabs.length).toBe(2);
+    expect(tabs[0].classList.contains('active')).toBe(true);
+    expect(el.querySelector('#single-result h2')!.textContent).toBe('Smoke Test');
+    tabs[1].click();
+    expect(el.querySelector('#single-result h2')!.textContent).toBe('Second Text');
+    expect(tabs[1].classList.contains('active')).toBe(true);
+    expect(tabs[0].classList.contains('active')).toBe(false);
+  });
 });

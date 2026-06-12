@@ -57,11 +57,11 @@ export function scatterSvg(spec: ScatterSpec): string {
 
 function svgShell(title: string, inner: string): string {
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}"
-    viewBox="0 0 ${W} ${H}" font-family="Georgia, serif" style="background:#fff">
+    viewBox="0 0 ${W} ${H}" font-family="Garamond, 'EB Garamond', Georgia, serif" style="background:#fff">
     <text x="${W / 2}" y="${PAD - 18}" font-size="15" text-anchor="middle"
       font-weight="bold">${esc(title)}</text>
     <text x="${W - 8}" y="${H - 6}" font-size="9" text-anchor="end" fill="#888">
-      EvilI methodology v${METHODOLOGY_VERSION}</text>
+      Evil I methodology v${METHODOLOGY_VERSION}</text>
     ${inner}</svg>`;
 }
 
@@ -78,7 +78,7 @@ export function renderReportCharts(slot: HTMLElement, r: AnalysisReport): void {
     yMin: -100, yMax: 100,
   });
   slot.innerHTML = svg + chartExportButtons('arc');
-  wireChartExport(slot, svg, `evili-arc-${slug(r.title)}`);
+  wireChartExport(slot, svg, `evil-i-arc-${slug(r.title)}`);
 }
 
 export function chartExportButtons(id: string): string {

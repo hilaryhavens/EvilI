@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>EvilI — Methodology</title>
+    <title>Evil I — Methodology</title>
     <script type="module" src="/src/ui/styles.css"></script>
     <style>
       /* methodology-specific layout */
@@ -16,7 +16,7 @@
       .back-link {
         display: inline-block;
         margin-bottom: 2rem;
-        color: var(--c-self, #1d6fa5);
+        color: var(--accent, #0f766e);
         text-decoration: none;
         font-size: 0.9rem;
       }
@@ -66,7 +66,7 @@
       .limitation-list li { margin-bottom: 0.4rem; }
       .score-table td:first-child { white-space: nowrap; }
       blockquote {
-        border-left: 3px solid var(--c-self, #1d6fa5);
+        border-left: 3px solid var(--accent, #0f766e);
         margin: 1rem 0;
         padding: 0.5rem 1rem;
         color: var(--muted, #666);
@@ -78,7 +78,7 @@
     <div class="methodology-wrapper">
       <a class="back-link" href="./index.html">← Back to the tool</a>
 
-      <h1>EvilI — Methodology</h1>
+      <h1>Evil I — Methodology</h1>
       <p class="version-stamp">Methodology version 0.1.0 &nbsp;·&nbsp; 2026-06-11 &nbsp;·&nbsp; Hilary Havens, University of Tennessee, Knoxville</p>
 
       <blockquote>Every score displayed by this tool carries the label "computational estimate from lexical evidence." This page documents exactly what those estimates measure, how they are computed, and what they cannot do.</blockquote>
@@ -86,7 +86,7 @@
       <!-- ===================================================== -->
       <h2 id="s1">1. What this tool does and does not do</h2>
 
-      <p>EvilI applies heuristic lexical analysis to texts of the long eighteenth century in Britain and reports three things: whether the text is in first-person narration, how reliable the narrator appears on a 0–100 index, and how moral the narrator appears on a −100 to +100 scale (two separate scores: deeds vs. self-presentation). All three judgments are computational estimates derived from surface-level textual signals — pronoun densities, lexicon matches, negation flags, and phrase patterns. They are not literary interpretations.</p>
+      <p>Evil I applies heuristic lexical analysis to texts of the long eighteenth century in Britain and reports three things: whether the text is in first-person narration, how reliable the narrator appears on a 0–100 index, and how moral the narrator appears on a −100 to +100 scale (two separate scores: deeds vs. self-presentation). All three judgments are computational estimates derived from surface-level textual signals — pronoun densities, lexicon matches, negation flags, and phrase patterns. They are not literary interpretations.</p>
 
       <p>The tool runs entirely in your browser. Nothing is sent to any server. There is no account, no tracking, and no data retention of any kind. This is a structural fact of the deployment (a static site on GitHub Pages), not merely a policy.</p>
 
@@ -290,7 +290,7 @@ index = clamp(100 − penalty, 0, 100)</div>
       <!-- ===================================================== -->
       <h2 id="s9">9. Privacy</h2>
 
-      <p>EvilI runs entirely in your browser. The tool is a static website hosted on GitHub Pages; there is no application server, no database, no analytics tracker, and no network request associated with analysis. When you paste text into the tool, that text never leaves your device. This is a structural consequence of the deployment architecture, not merely a policy: there is no server that could receive or retain your data.</p>
+      <p>Evil I runs entirely in your browser. The tool is a static website hosted on GitHub Pages; there is no application server, no database, no analytics tracker, and no network request associated with analysis. When you paste text into the tool, that text never leaves your device. This is a structural consequence of the deployment architecture, not merely a policy: there is no server that could receive or retain your data.</p>
 
       <!-- ===================================================== -->
       <h2 id="s10">10. Citing this tool</h2>
@@ -299,7 +299,7 @@ index = clamp(100 − penalty, 0, 100)</div>
 
       <p>Suggested citation format:</p>
       <blockquote>
-        Havens, Hilary. <em>EvilI: detecting unreliable first-person narrators in eighteenth-century British texts</em>. Version 0.1.0. University of Tennessee, Knoxville, 2026. &lt;https://hilaryhavens.github.io/EvilI/&gt;.
+        Havens, Hilary. <em>Evil I: detecting unreliable first-person narrators in eighteenth-century British texts</em>. Version 0.1.0. University of Tennessee, Knoxville, 2026. &lt;https://hilaryhavens.github.io/EvilI/&gt;.
       </blockquote>
 
       <p>Repository: <a href="https://github.com/hilaryhavens/EvilI">https://github.com/hilaryhavens/EvilI</a></p>
