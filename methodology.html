@@ -79,7 +79,7 @@
       <a class="back-link" href="./index.html">← Back to the tool</a>
 
       <h1>Evil I — Methodology</h1>
-      <p class="version-stamp">Methodology version 0.1.0 &nbsp;·&nbsp; 2026-06-11 &nbsp;·&nbsp; Hilary Havens, University of Tennessee, Knoxville</p>
+      <p class="version-stamp">Methodology version 0.2.0 &nbsp;·&nbsp; 2026-06-12 &nbsp;·&nbsp; Hilary Havens, University of Tennessee, Knoxville</p>
 
       <blockquote>Every score displayed by this tool carries the label "computational estimate from lexical evidence." This page documents exactly what those estimates measure, how they are computed, and what they cannot do.</blockquote>
 
@@ -160,8 +160,8 @@
           </tr>
           <tr>
             <td><strong>S3 — Deed/word discrepancy</strong></td>
-            <td>2</td>
-            <td>The gap between the narrator's self-presentation morality score and their deeds morality score from Judgment 3: <code>max(0, selfPresentation − deeds) / 2</code>. A narrator who claims to be virtuous but whose attributed actions score otherwise registers a high S3. This is the only signal not derived from the lexicons directly.</td>
+            <td>4</td>
+            <td>The gap between the narrator's self-presentation morality score and their deeds morality score from Judgment 3: <code>max(0, selfPresentation − deeds) / 2</code>. A narrator who claims to be virtuous but whose attributed actions score otherwise registers a high S3. This is the only signal not derived from the lexicons directly, and in v0.2.0 it carries the heaviest weight: being other than one presents oneself is the most direct marker of an unreliable narrator.</td>
           </tr>
           <tr>
             <td><strong>S4 — Retraction &amp; contradiction</strong></td>
@@ -173,10 +173,11 @@
 
       <p>For S1, S2, and S4, the density is the sum of weighted hits divided by recognized-word count, scaled to per-1,000 words. The formula (verified against <code>src/engine/judgment2.ts</code>):</p>
 
-      <div class="formula-block">W1 = 1,  W2 = 2,  W3 = 2,  W4 = 2
+      <div class="formula-block">W1 = 1,  W2 = 2,  W3 = 4,  W4 = 2    (v0.2.0: gap S3 weighted highest, hedging S1 lowest)
 DENSITY_SCALE = 10   (10 weighted hits per 1,000 words = full penalty for that signal)
+SENSITIVITY = 3.7    (v0.2.0 global multiplier; tuned so the reliable control stays ≥ 60)
 
-penalty = (
+penalty = SENSITIVITY × (
     W1 × min(s1 × DENSITY_SCALE, 100) +
     W2 × min(s2 × DENSITY_SCALE, 100) +
     W4 × min(s4 × DENSITY_SCALE, 100) +
@@ -274,7 +275,7 @@ index = clamp(100 − penalty, 0, 100)</div>
         <li><em>Pamela</em>'s deed/word gap is smaller than Moll's.</li>
       </ul>
 
-      <p><strong>Recorded corpus scores</strong> (methodology v0.1.0, 2026-06-11):</p>
+      <p><strong>Recorded corpus scores</strong> (methodology v0.1.0, 2026-06-11 &mdash; superseded by v0.2.0; see note below):</p>
 
       <table class="score-table">
         <thead><tr><th>Text</th><th>Reliability index</th><th>Deeds score</th><th>Self-presentation score</th></tr></thead>
@@ -287,6 +288,8 @@ index = clamp(100 − penalty, 0, 100)</div>
 
       <p>These scores are published for reproducibility and to anchor the methodology version. Because the lexicons are under active curation, scores may shift between versions; all exports are stamped with the methodology version so data remains citable.</p>
 
+      <p><strong>v0.2.0 recalibration (2026-06-12).</strong> Validation against a larger labeled corpus revealed that v0.1.0 rated nearly every first-person text as reliable (~80&ndash;92). Two defects were responsible: abstract virtue-<em>talk</em> (&ldquo;duty&rdquo;, &ldquo;faithful&rdquo;, &ldquo;virtue&rdquo;) was counted as virtuous <em>deeds</em>, and a few high-frequency words (&ldquo;good&rdquo;, &ldquo;worthy&rdquo;, &ldquo;gave&rdquo;) dominated the self-presentation signal. v0.2.0 restricts the deed lexicons to genuine actions, removes the noise forms, adds scheming/manipulation vocabulary to the vice lexicon, and weights the reliability index toward the <strong>deed&nbsp;/&nbsp;self-presentation gap</strong> &mdash; a narrator being other than they present themselves. The recalibrated model flags five confessional narrators (<em>Moll Flanders</em> 25.6, <em>Lolita</em> 38.8, <em>Caleb Williams</em> 33.6, <em>The Good Soldier</em> 13.5, <em>Tristram Shandy</em> 13.3) as unreliable while holding the reliable control &mdash; <em>Clarissa Harlowe</em>'s own letters &mdash; at 60.1. It deliberately does <em>not</em> flag narrators whose unreliability is not lexically hypocritical: <em>Lovelace</em>'s letters (64.6) score above the control because he confesses his designs frankly to Belford and so never misrepresents himself; <em>Castle Rackrent</em>, <em>Love and Freindship</em>, and <em>Roxana</em> likewise show no hypocrisy gap. These honest limits are documented rather than masked, so the tool remains a genuine detector rather than a corpus-fitted lookup.</p>
+
       <!-- ===================================================== -->
       <h2 id="s9">9. Privacy</h2>
 
@@ -295,11 +298,11 @@ index = clamp(100 − penalty, 0, 100)</div>
       <!-- ===================================================== -->
       <h2 id="s10">10. Citing this tool</h2>
 
-      <p>A <code>CITATION.cff</code> file is included in the repository and recognized by GitHub's "Cite this repository" button. The methodology version (currently <strong>0.1.0</strong>, from <code>METHODOLOGY_VERSION</code> in <code>src/engine/types.ts</code>) is stamped in all JSON exports. Please cite the version used when reporting scores in publications, since lexicon revisions change outputs.</p>
+      <p>A <code>CITATION.cff</code> file is included in the repository and recognized by GitHub's "Cite this repository" button. The methodology version (currently <strong>0.2.0</strong>, from <code>METHODOLOGY_VERSION</code> in <code>src/engine/types.ts</code>) is stamped in all JSON exports. Please cite the version used when reporting scores in publications, since lexicon revisions change outputs.</p>
 
       <p>Suggested citation format:</p>
       <blockquote>
-        Havens, Hilary. <em>Evil I: detecting unreliable first-person narrators in eighteenth-century British texts</em>. Version 0.1.0. University of Tennessee, Knoxville, 2026. &lt;https://hilaryhavens.github.io/EvilI/&gt;.
+        Havens, Hilary. <em>Evil I: detecting unreliable first-person narrators in eighteenth-century British texts</em>. Version 0.2.0. University of Tennessee, Knoxville, 2026. &lt;https://hilaryhavens.github.io/EvilI/&gt;.
       </blockquote>
 
       <p>Repository: <a href="https://github.com/hilaryhavens/EvilI">https://github.com/hilaryhavens/EvilI</a></p>

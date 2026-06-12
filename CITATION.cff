@@ -5,8 +5,8 @@ authors:
   - family-names: Havens
     given-names: Hilary
     affiliation: "University of Tennessee, Knoxville"
-version: 0.1.0
-date-released: "2026-06-11"
+version: 0.2.0
+date-released: "2026-06-12"
 repository-code: "https://github.com/hilaryhavens/EvilI"
 abstract: >
   In-browser heuristic analysis of first-person perspective, narrator
