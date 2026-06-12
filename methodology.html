@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/EvilI/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EvilI — Methodology</title>
+    <script type="module" src="/src/ui/styles.css"></script>
+    <style>
+      /* methodology-specific layout */
+      .methodology-wrapper {
+        max-width: 52rem;
+        margin: 0 auto;
+        padding: 2rem 1rem 4rem;
+      }
+      .back-link {
+        display: inline-block;
+        margin-bottom: 2rem;
+        color: var(--c-self, #1d6fa5);
+        text-decoration: none;
+        font-size: 0.9rem;
+      }
+      .back-link:hover { text-decoration: underline; }
+      h1 { font-size: 2rem; margin-bottom: 0.25rem; }
+      .version-stamp {
+        color: var(--muted, #666);
+        font-size: 0.85rem;
+        margin-bottom: 2rem;
+      }
+      h2 {
+        font-size: 1.3rem;
+        border-bottom: 1px solid var(--border, #ccc);
+        padding-bottom: 0.25rem;
+        margin-top: 2.5rem;
+      }
+      h3 { font-size: 1.05rem; margin-top: 1.75rem; }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        font-size: 0.88rem;
+        margin: 0.75rem 0 1.5rem;
+      }
+      th, td {
+        border: 1px solid var(--border, #ccc);
+        padding: 0.35rem 0.6rem;
+        text-align: left;
+        vertical-align: top;
+      }
+      th { background: #f0ede8; }
+      .lex-table td:nth-child(2) { font-family: monospace; font-size: 0.82rem; }
+      code {
+        background: #f0ede8;
+        padding: 0.1em 0.3em;
+        border-radius: 3px;
+        font-size: 0.88em;
+      }
+      .formula-block {
+        background: #f5f3ef;
+        border-left: 3px solid var(--border, #ccc);
+        padding: 0.75rem 1rem;
+        margin: 0.75rem 0;
+        font-family: monospace;
+        font-size: 0.9rem;
+        white-space: pre-wrap;
+      }
+      .limitation-list li { margin-bottom: 0.4rem; }
+      .score-table td:first-child { white-space: nowrap; }
+      blockquote {
+        border-left: 3px solid var(--c-self, #1d6fa5);
+        margin: 1rem 0;
+        padding: 0.5rem 1rem;
+        color: var(--muted, #666);
+        font-style: italic;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="methodology-wrapper">
+      <a class="back-link" href="./index.html">← Back to the tool</a>
+
+      <h1>EvilI — Methodology</h1>
+      <p class="version-stamp">Methodology version 0.1.0 &nbsp;·&nbsp; 2026-06-11 &nbsp;·&nbsp; Hilary Havens, University of Tennessee, Knoxville</p>
+
+      <blockquote>Every score displayed by this tool carries the label "computational estimate from lexical evidence." This page documents exactly what those estimates measure, how they are computed, and what they cannot do.</blockquote>
+
+      <!-- ===================================================== -->
+      <h2 id="s1">1. What this tool does and does not do</h2>
+
+      <p>EvilI applies heuristic lexical analysis to texts of the long eighteenth century in Britain and reports three things: whether the text is in first-person narration, how reliable the narrator appears on a 0–100 index, and how moral the narrator appears on a −100 to +100 scale (two separate scores: deeds vs. self-presentation). All three judgments are computational estimates derived from surface-level textual signals — pronoun densities, lexicon matches, negation flags, and phrase patterns. They are not literary interpretations.</p>
+
+      <p>The tool runs entirely in your browser. Nothing is sent to any server. There is no account, no tracking, and no data retention of any kind. This is a structural fact of the deployment (a static site on GitHub Pages), not merely a policy.</p>
+
+      <p>The following limitations are stated plainly and should be foregrounded in any scholarly use of the tool's output:</p>
+
+      <ul class="limitation-list">
+        <li><strong>Heuristic, lexicon-based judgments.</strong> The scores are estimates derived from explicit textual markers — words and phrases the narrator uses — not interpretations. Irony, subtle or implicit unreliability, and forms of moral complexity that operate below the level of explicit vocabulary are out of reach.</li>
+        <li><strong>S4 (contradiction signal) is limited.</strong> It catches explicit retractions ("but in truth," "as I falsely said") and cases where the narrator affirms then later negates the same lexical verb. It does not detect inconsistencies that require world-knowledge inference or cross-passage reasoning.</li>
+        <li><strong>OCR remediation is rule-based.</strong> The tool targets common ECCO scanning failure modes (long-s, rn/m confusion, etc.) but is not a full OCR post-correction system. Heavily corrupted texts will still contain noise, flagged by the quality warning.</li>
+        <li><strong>Validation is directional and against a small corpus.</strong> The validation suite asserts orderings that align with critical consensus (Moll Flanders less reliable than the Journal of the Plague Year, etc.), not exhaustive benchmarks. Scores on texts outside the curated sample corpus should be treated as exploratory.</li>
+      </ul>
+
+      <!-- ===================================================== -->
+      <h2 id="s2">2. Pipeline</h2>
+
+      <p>Text passes through four sequential stages before any score is computed. Evidence offsets reported in the interface refer to positions in the processed text after all transformations, which is also what is displayed in the evidence explorer.</p>
+
+      <ol>
+        <li><strong>TEI/XML strip.</strong> If the input is TEI-encoded, all markup is removed, leaving plain text.</li>
+        <li><strong>Typography normalization.</strong> Long s (ſ) is converted to s; u/v and i/j interchanges are resolved (<em>vpon</em> → upon, <em>ioy</em> → joy); elided preterites (<em>walk'd, deceiv'd, oblig'd</em>) are expanded; a curated variant-spelling table handles period orthography (<em>chuse → choose, shew → show, compleat → complete, surprize → surprise, stile → style</em>, etc.). Period capitalization of common nouns is handled by case-insensitive matching throughout.</li>
+        <li><strong>Dictionary-gated OCR remediation.</strong> Character confusion rules are applied to tokens not recognized in the dictionary. A replacement is made only if it produces a known word and the original is not one — the "only-repair-if-it-creates-a-known-word" invariant. See Section 7 for the full rule set.</li>
+        <li><strong>Spelling normalization and archaic grammar.</strong> The period-variant table (a separate JSON file) ensures that archaic forms such as <em>chuse</em>, <em>shew</em>, and <em>hath/doth/art/wert</em> are recognized by the lexicons and are neither miscounted as narrator self-reference nor missed in phrase patterns. The dictionary includes both standard English and all period variants, so known period spellings are never falsely "corrected."</li>
+      </ol>
+
+      <!-- ===================================================== -->
+      <h2 id="s3">3. Judgment 1: Perspective</h2>
+
+      <p>The perspective judgment measures the ratio of first-person pronouns to third-person pronouns in the <em>narration</em> only. Quoted dialogue is detected by <code>maskDialogue()</code> (which identifies double-quoted passages) and excluded before any counting, because third-person novels are full of characters saying "I."</p>
+
+      <p>The first-person pronoun set is: <em>I, me, my, mine, myself, we, us, our, ours, ourselves</em>. The third-person set is: <em>he, him, his, she, her, hers, they, them, their, theirs</em>. The second-person set is: <em>you, your, yours, thou, thee, thy, thine</em> (the archaic forms are included to capture epistolary address and intimate narration).</p>
+
+      <p>Let <strong>fp</strong> = count of first-person pronouns in narration, <strong>tp</strong> = count of third-person pronouns. The first-person share is:</p>
+
+      <div class="formula-block">fpShare = fp / max(fp + tp, 1)</div>
+
+      <p>The verdict is assigned by these thresholds (verified against <code>src/engine/judgment1.ts</code>):</p>
+
+      <table>
+        <thead><tr><th>Condition</th><th>Verdict</th></tr></thead>
+        <tbody>
+          <tr><td>fpShare ≥ 0.45 AND second-person density ≥ 12 per 1,000 words</td><td>mixed-epistolary</td></tr>
+          <tr><td>fpShare ≥ 0.45 (alone)</td><td>first-person</td></tr>
+          <tr><td>fpShare ≤ 0.20</td><td>third-person</td></tr>
+          <tr><td>0.20 &lt; fpShare &lt; 0.45</td><td>mixed-epistolary</td></tr>
+        </tbody>
+      </table>
+
+      <p>Confidence is a 0–1 value measuring distance from the 0.325 decision midpoint, boosted slightly (up to +0.3) by narratorial self-reference phrases ("I shall now relate," "as I have said," "I must confess," "I proceed to"). The formula is:</p>
+
+      <div class="formula-block">confidence = clamp( |fpShare − 0.325| / 0.325 + min(selfRef × 0.1, 0.3), 0, 1 )</div>
+
+      <p>If the perspective verdict is not first-person (or mixed-epistolary), Judgments 2 and 3 are not computed; those score cards are grayed out in the interface.</p>
+
+      <!-- ===================================================== -->
+      <h2 id="s4">4. Judgment 2: Reliability index (0–100)</h2>
+
+      <p>The reliability index measures how much textual evidence of unreliability the narrator produces. A score of 100 means no detected unreliability signals; lower scores reflect higher density of detected signals. The index is computed from four signals, each a density per 1,000 recognized words (making scores comparable across texts of different lengths).</p>
+
+      <table>
+        <thead><tr><th>Signal</th><th>Weight</th><th>What it counts</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>S1 — Hedging &amp; uncertainty</strong></td>
+            <td>1</td>
+            <td>Expressions of doubt, memory qualification, and epistemic uncertainty: "perhaps," "methinks," "I know not," "I cannot tell," memory disclaimers ("if I remember right," "as well as I can recollect"), and similar hedging phrases. Deliberately under-weighted because hedging can be period style or genuine modesty rather than unreliability.</td>
+          </tr>
+          <tr>
+            <td><strong>S2 — Self-justification &amp; reader appeals</strong></td>
+            <td>2</td>
+            <td>Excuse-making tied to first-person agency, reader management, and rhetorical self-defense: "I was driven by necessity," "the reader must consider," "let none judge me," and similar phrases. Weighted at 2 because active justification is a stronger unreliability marker than hedging.</td>
+          </tr>
+          <tr>
+            <td><strong>S3 — Deed/word discrepancy</strong></td>
+            <td>2</td>
+            <td>The gap between the narrator's self-presentation morality score and their deeds morality score from Judgment 3: <code>max(0, selfPresentation − deeds) / 2</code>. A narrator who claims to be virtuous but whose attributed actions score otherwise registers a high S3. This is the only signal not derived from the lexicons directly.</td>
+          </tr>
+          <tr>
+            <td><strong>S4 — Retraction &amp; contradiction</strong></td>
+            <td>2</td>
+            <td>Explicit retraction phrases ("but in truth," "to confess the truth," "as I falsely said") counted from the retraction lexicon, plus negation reversals detected across the full text (same first-person verb affirmed in one sentence and negated in another). Both are combined in the density for S4.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>For S1, S2, and S4, the density is the sum of weighted hits divided by recognized-word count, scaled to per-1,000 words. The formula (verified against <code>src/engine/judgment2.ts</code>):</p>
+
+      <div class="formula-block">W1 = 1,  W2 = 2,  W3 = 2,  W4 = 2
+DENSITY_SCALE = 10   (10 weighted hits per 1,000 words = full penalty for that signal)
+
+penalty = (
+    W1 × min(s1 × DENSITY_SCALE, 100) +
+    W2 × min(s2 × DENSITY_SCALE, 100) +
+    W4 × min(s4 × DENSITY_SCALE, 100) +
+    W3 × s3
+  ) / (W1 + W2 + W3 + W4)
+
+index = clamp(100 − penalty, 0, 100)</div>
+
+      <p>Each individual signal contribution is capped at 100 before weighting, so no single signal can drive the full score to zero. The final index is clamped to the range 0–100. Every lexicon hit that contributes to S1, S2, or S4 is stored with its sentence, character offset, signal type, and weight, forming the highlighted evidence passages in the interface.</p>
+
+      <!-- ===================================================== -->
+      <h2 id="s5">5. Judgment 3: Morality (−100 to +100)</h2>
+
+      <p>The morality judgment produces two separate scores, both on the −100 (immoral) to +100 (virtuous) scale:</p>
+
+      <ul>
+        <li><strong>Deeds score:</strong> polarity of vice and virtue lexicon hits that are attributed to first-person agency.</li>
+        <li><strong>Self-presentation score:</strong> polarity of the narrator's self-descriptive moral language in first-person sentences.</li>
+      </ul>
+
+      <p>Both scores use the same polarity formula, damped by total evidence weight (verified against <code>src/engine/judgment3.ts</code>):</p>
+
+      <div class="formula-block">polarity(positive, negative):
+  total = positive + negative
+  if total == 0: return 0
+  raw = 100 × (positive − negative) / total
+  return raw × min(1, total / 10)    ← dampen scores based on tiny evidence</div>
+
+      <p>The damping factor <code>min(1, total/10)</code> means that a text with very few deed hits will not produce an extreme score just because the hits happen to be one-sided; a total evidence weight of 10 or more yields the full undamped polarity.</p>
+
+      <p><strong>First-person agency requirement for deeds.</strong> A vice or virtue lexicon match counts toward the deeds score only when a first-person subject ("I" or "we") can be found within eight tokens before the matched verb, without a clause boundary (semicolon or colon) intervening. "I stole" counts. "He stole" does not. "I never stole" does not (negation blocks the hit).</p>
+
+      <p><strong>Self-presentation</strong> uses a looser requirement: the moral adjective or noun need only appear in a sentence that contains any first-person pronoun, without negation on that token.</p>
+
+      <p><strong>Band thresholds</strong> (verified against <code>moralBand()</code> in <code>src/engine/types.ts</code>):</p>
+
+      <table>
+        <thead><tr><th>Score range</th><th>Band label</th></tr></thead>
+        <tbody>
+          <tr><td>≥ 60</td><td>virtuous</td></tr>
+          <tr><td>≥ 20 and &lt; 60</td><td>mostly virtuous</td></tr>
+          <tr><td>&gt; −20 and &lt; 20</td><td>ambiguous</td></tr>
+          <tr><td>&gt; −60 and ≤ −20</td><td>questionable</td></tr>
+          <tr><td>≤ −60</td><td>immoral</td></tr>
+        </tbody>
+      </table>
+
+      <p>The gap between the deeds and self-presentation scores is signal S3 in the reliability calculation. A narrator who presents as virtuous but whose attributed first-person actions score negatively is the canonical case of detected unreliability.</p>
+
+      <!-- ===================================================== -->
+      <h2 id="s6">6. Lexicons</h2>
+
+      <p>All word lists are hand-curated JSON files in the repository, designed for long-eighteenth-century British moral vocabulary. Modern sentiment lexicons would systematically misfire on this corpus — "want," "luxury," and "condescension" all carry specific period meanings that diverge from contemporary usage. Each entry specifies: a canonical term, all recognized forms (including inflected and archaic forms such as "deceiv'd," "stole/stolen," "hath sinned"), a weight (1–3, reflecting moral severity), and for the selfPresentation lexicon, a polarity (+1 positive / −1 negative).</p>
+
+      <p>These are seed lexicons; expansion toward 50–150 entries per category is ongoing editorial curation. Researchers can inspect the full lists below, cite them by methodology version, and propose additions. Lexicons are editable JSON without touching any code; see the README for the entry format and the command to re-run validation after changes.</p>
+
+      <div id="lexicon-tables">
+        <!-- rendered by lexiconTables.ts -->
+      </div>
+
+      <!-- ===================================================== -->
+      <h2 id="s7">7. OCR remediation</h2>
+
+      <p>ECCO-derived texts (Eighteenth Century Collections Online) frequently contain systematic OCR errors from scanning long-s typefaces and other period printing conventions. The remediator applies the following character confusion rules, in order, to each token that is not recognized in the dictionary. A repair is applied <em>only if it produces a known word and the original form is not already known</em> — this "only-repair-if-it-creates-a-known-word" invariant prevents false corrections. Ambiguous real-word pairs (e.g., <em>fame/same</em>, <em>fat/sat</em>) are left untouched and logged.</p>
+
+      <table>
+        <thead><tr><th>Pattern</th><th>Substitution</th><th>Typical error</th></tr></thead>
+        <tbody>
+          <tr><td><code>f → s</code></td><td>any f in token → s</td><td>Long-s misread: <em>fhe, fome, fuch, defire, paffion</em> → <em>she, some, such, desire, passion</em> (dominant error in ECCO)</td></tr>
+          <tr><td><code>rn → m</code></td><td>rn → m</td><td><em>rnarriage</em> → <em>marriage</em></td></tr>
+          <tr><td><code>m → rn</code></td><td>m → rn</td><td><em>morn</em> misread as joined glyph</td></tr>
+          <tr><td><code>c → e</code></td><td>c → e</td><td>Misprinted c glyphs</td></tr>
+          <tr><td><code>e → c</code></td><td>e → c</td><td>Misprinted e glyphs</td></tr>
+          <tr><td><code>h → b</code></td><td>h → b</td><td>h/b confusion</td></tr>
+          <tr><td><code>li → h</code></td><td>li → h</td><td>Broken ligature: <em>liim</em> → <em>him</em></td></tr>
+        </tbody>
+      </table>
+
+      <p>Each rule is first tried replacing all occurrences simultaneously; if that does not yield a known word, each occurrence is tried individually. Additionally, the remediator tries splitting any unknown run-together token at every position (minimum three characters each side) into two known words, to recover broken hyphenation errors that survive the hyphenated-line-break rejoiner (<code>word-\nword → wordword</code>). Case is preserved in all corrections.</p>
+
+      <p>After all repairs, the <strong>unknown-token rate</strong> is the share of total tokens still unrecognized. When this rate exceeds <strong>5%</strong> of total tokens, the interface shows a visible quality warning and all density calculations use the recognized-word count rather than the total word count, so scores remain comparable.</p>
+
+      <p>Every correction applied is logged with the original form, the corrected form, and the character offset; the full correction log is included in the JSON export.</p>
+
+      <!-- ===================================================== -->
+      <h2 id="s8">8. Validation</h2>
+
+      <p>The validation suite (<code>tests/validation.test.ts</code>) runs the engine against three bundled public-domain texts and asserts orderings that align with established critical consensus. These are directional assertions — ordering claims, not exact numbers — so that lexicon refinement does not break tests spuriously while genuine regressions are caught.</p>
+
+      <p><strong>Directional assertions:</strong></p>
+      <ul>
+        <li>Every bundled text registers as first-person or mixed-epistolary.</li>
+        <li><em>Moll Flanders</em> is less reliable than <em>A Journal of the Plague Year</em>.</li>
+        <li>Moll's deeds score is lower than her self-presentation score (she presents better than she acts).</li>
+        <li><em>Pamela</em>'s deed/word gap is smaller than Moll's.</li>
+      </ul>
+
+      <p><strong>Recorded corpus scores</strong> (methodology v0.1.0, 2026-06-11):</p>
+
+      <table class="score-table">
+        <thead><tr><th>Text</th><th>Reliability index</th><th>Deeds score</th><th>Self-presentation score</th></tr></thead>
+        <tbody>
+          <tr><td>Defoe, <em>Moll Flanders</em></td><td>83.0</td><td>13.9</td><td>33.3</td></tr>
+          <tr><td>Defoe, <em>A Journal of the Plague Year</em></td><td>90.7</td><td>30.8</td><td>6.6</td></tr>
+          <tr><td>Richardson, <em>Pamela</em></td><td>86.7</td><td>49.3</td><td>30.8</td></tr>
+        </tbody>
+      </table>
+
+      <p>These scores are published for reproducibility and to anchor the methodology version. Because the lexicons are under active curation, scores may shift between versions; all exports are stamped with the methodology version so data remains citable.</p>
+
+      <!-- ===================================================== -->
+      <h2 id="s9">9. Privacy</h2>
+
+      <p>EvilI runs entirely in your browser. The tool is a static website hosted on GitHub Pages; there is no application server, no database, no analytics tracker, and no network request associated with analysis. When you paste text into the tool, that text never leaves your device. This is a structural consequence of the deployment architecture, not merely a policy: there is no server that could receive or retain your data.</p>
+
+      <!-- ===================================================== -->
+      <h2 id="s10">10. Citing this tool</h2>
+
+      <p>A <code>CITATION.cff</code> file is included in the repository and recognized by GitHub's "Cite this repository" button. The methodology version (currently <strong>0.1.0</strong>, from <code>METHODOLOGY_VERSION</code> in <code>src/engine/types.ts</code>) is stamped in all JSON exports. Please cite the version used when reporting scores in publications, since lexicon revisions change outputs.</p>
+
+      <p>Suggested citation format:</p>
+      <blockquote>
+        Havens, Hilary. <em>EvilI: detecting unreliable first-person narrators in eighteenth-century British texts</em>. Version 0.1.0. University of Tennessee, Knoxville, 2026. &lt;https://hilaryhavens.github.io/EvilI/&gt;.
+      </blockquote>
+
+      <p>Repository: <a href="https://github.com/hilaryhavens/EvilI">https://github.com/hilaryhavens/EvilI</a></p>
+
+      <hr style="margin-top:3rem;" />
+      <p style="font-size:0.8rem; color:var(--muted,#666);">
+        <a class="back-link" href="./index.html">← Back to the tool</a>
+      </p>
+    </div>
+
+    <script type="module" src="/src/methodology/lexiconTables.ts"></script>
+  </body>
+</html>

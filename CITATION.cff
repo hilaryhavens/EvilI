@@ -1,0 +1,13 @@
+cff-version: 1.2.0
+title: "EvilI: detecting unreliable first-person narrators in eighteenth-century British texts"
+type: software
+authors:
+  - family-names: Havens
+    given-names: Hilary
+    affiliation: "University of Tennessee, Knoxville"
+version: 0.1.0
+date-released: "2026-06-11"
+repository-code: "https://github.com/hilaryhavens/EvilI"
+abstract: >
+  In-browser heuristic analysis of first-person perspective, narrator
+  reliability, and narrator morality in long-eighteenth-century texts.
