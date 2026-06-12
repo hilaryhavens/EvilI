@@ -1,1 +1,37 @@
-[]
+[
+  {
+    "title": "Moll Flanders",
+    "author": "Daniel Defoe",
+    "year": "1722",
+    "hook": "Defoe's repentant thief tells her own story",
+    "file": "moll-flanders.txt"
+  },
+  {
+    "title": "A Journal of the Plague Year",
+    "author": "Daniel Defoe",
+    "year": "1722",
+    "hook": "An eyewitness account of the 1665 plague",
+    "file": "plague-year.txt"
+  },
+  {
+    "title": "Gulliver's Travels",
+    "author": "Jonathan Swift",
+    "year": "1726",
+    "hook": "A ship's surgeon among giants, midgets, and horses",
+    "file": "gulliver.txt"
+  },
+  {
+    "title": "Pamela",
+    "author": "Samuel Richardson",
+    "year": "1740",
+    "hook": "Virtue rewarded — or is it? — in letters",
+    "file": "pamela.txt"
+  },
+  {
+    "title": "Roxana",
+    "author": "Daniel Defoe",
+    "year": "1724",
+    "hook": "The fortunate mistress counts the cost of her rise",
+    "file": "roxana.txt"
+  }
+]
