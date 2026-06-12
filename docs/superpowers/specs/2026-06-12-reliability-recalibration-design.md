@@ -148,14 +148,36 @@ suite does.
 - Note the recalibration and the new corpus in `README.md` and `methodology.html`
   (validation section), including that scores changed across the version bump.
 
-## Acceptance criteria
+## Acceptance criteria (final — honest-results outcome, user-approved 2026-06-12)
+
+The post-baseline investigation established that the lexical features cannot separate
+every target from the control: on every signal except the hypocrisy gap, Clarissa is
+as "unreliable" as Lovelace, Roxana, Castle Rackrent and Love & Freindship (Lovelace
+is in fact below Clarissa on all signals). The user chose the **principled rebuild,
+honest results** path — flag what the features genuinely support, document the rest,
+never hardcode titles. Final criteria:
 
 1. `scripts/extract-letters.mjs` produces the three fixture files from `corpus/`.
-2. New corpus-validation suite passes: eight single-narrator texts + Lovelace +
-   Lady Susan < 40; Clarissa ≥ 60. Whole Clarissa/Lady Susan files unconstrained.
-3. Existing `tests/validation.test.ts` relative orderings still pass.
-4. Full suite (`npx vitest run`) is green.
-5. `METHODOLOGY_VERSION` bumped; README/methodology updated.
+2. The recalibration fixes the inverted deed-attribution, removes noise forms, adds
+   manipulation vocabulary, and weights the deed/self-presentation gap highest.
+3. `tests/corpus-validation.test.ts` passes and asserts the achieved, stable state:
+   - five confessional narrators < 40: Moll Flanders, Lolita, Caleb Williams,
+     The Good Soldier, Tristram Shandy;
+   - the Clarissa Harlowe letters control ≥ 60;
+   - every flagged text scores below the control.
+   Its header documents all eleven achieved indices and the texts the model cannot
+   separate (Lovelace, Roxana, Castle Rackrent, Love & Freindship; Lady Susan at
+   43.6), with the literary explanation.
+4. Existing `tests/validation.test.ts` orderings still pass; full suite green.
+5. `METHODOLOGY_VERSION` bumped to 0.2.0; README, methodology.html, CITATION.cff
+   updated, including the honest limitations.
+
+**Known limitation (documented, not a bug):** Lovelace and Lady Susan — both named
+by the user as must-flag — are not flagged < 40. Lovelace confesses his designs
+frankly and so does not misrepresent himself (no hypocrisy gap); Lady Susan's signal
+is contradiction rather than hypocrisy and lands at 43.6. Flagging them would require
+the curated/overfit approach the user declined, or a deeper self-presentation
+attribution rewrite of uncertain payoff.
 
 ## Risks
 
