@@ -20,17 +20,18 @@ texts (plus two contemporary touchstones) that should all read as **unreliable**
 
 Recalibrate the model so it discriminates, validated against the answer key:
 
-- All ten corpus texts score reliability index **< 40** ("substantially/profoundly
-  unreliable").
+- The eight single-narrator corpus texts score reliability index **< 40**
+  ("substantially/profoundly unreliable"): Caleb_Williams, Castle_Rackrent, Lolita,
+  Love_and_Freindship, Moll_Flanders, Roxana, The_Good_Soldier, Tristram_Shandy.
 - The extracted **Lovelace** letters (from *Clarissa*) score **< 40**.
 - The extracted **Lady Susan** letters (from *Lady Susan*) score **< 40**.
 - The extracted **Clarissa Harlowe** letters score **≥ 60** ("broadly reliable").
   This is the control: it proves the recalibration discriminates within a single
   novel rather than dragging everything down.
 
-The corpus texts: Caleb_Williams, Castle_Rackrent, Clarissa (whole), Lady_Susan
-(whole), Lolita, Love_and_Freindship, Moll_Flanders, Roxana, The_Good_Soldier,
-Tristram_Shandy.
+The two epistolary novels (*Clarissa*, *Lady Susan*) are **not** tested as whole
+files — they mix reliable and unreliable correspondents, so only their extracted
+single-author letters are scored. The whole-file scores are unconstrained.
 
 ## Non-goals
 
@@ -92,7 +93,8 @@ justified by appearing in the unreliable texts, not the control.
 (mirrors the existing `validation.test.ts` pattern so CI without the large texts
 still passes). Asserts:
 
-- each of the ten corpus texts: `reliability.index < 40`
+- each of the eight single-narrator corpus texts: `reliability.index < 40`
+  (Clarissa.txt and Lady_Susan.txt as whole files are NOT asserted)
 - `lovelace.txt`: `< 40`
 - `lady-susan.txt`: `< 40`
 - `clarissa-harlowe.txt`: `>= 60`
@@ -109,8 +111,8 @@ suite does.
 ## Acceptance criteria
 
 1. `scripts/extract-letters.mjs` produces the three fixture files from `corpus/`.
-2. New corpus-validation suite passes: ten texts + Lovelace + Lady Susan < 40;
-   Clarissa ≥ 60.
+2. New corpus-validation suite passes: eight single-narrator texts + Lovelace +
+   Lady Susan < 40; Clarissa ≥ 60. Whole Clarissa/Lady Susan files unconstrained.
 3. Existing `tests/validation.test.ts` relative orderings still pass.
 4. Full suite (`npx vitest run`) is green.
 5. `METHODOLOGY_VERSION` bumped; README/methodology updated.
